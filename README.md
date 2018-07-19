@@ -13,18 +13,15 @@ Setting Up Token Factory
 3. Open a terminal, navigate to the project folder, and install OpenZeppelin  
 ***
 		npm init -y  
-***
 		npm install -E openzeppelin-solidity  
 4. Install and start the Ganache from https://truffleframework.com/ganache  
 5. Install the Truffle CLI by running  
 ***
 		npm install -g truffle  
-***
 6. Compile the smart contract by running  
 ***
 		truffle compile  
 7. Deploy the smart contract by running  
-***
 		truffle migrate  
 8. Install Metamask browser extension  
 9. Start the local web server by running  
