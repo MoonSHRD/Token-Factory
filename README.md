@@ -22,6 +22,7 @@ Setting Up Token Factory
 ***
 		truffle compile  
 7. Deploy the smart contract by running  
+
 		truffle migrate  
 8. Install Metamask browser extension  
 9. Start the local web server by running  
