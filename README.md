@@ -1,12 +1,13 @@
-Token Factory
+h1 **Token Factory**
+=====================
 This is project for generation new own Tokens.
 
 This project include contracts:
+[Token](https://github.com/KenjuDari/Token-Factory/blob/master/contracts/Token.sol) - which is template of standard token.
+[TokenFactory](https://github.com/KenjuDari/Token-Factory/blob/master/contracts/TokenFactory.sol) - which allow to create your own token automaticaly.
 
-Token - which is template of standard token.
-TokenFactory - which allow to create your own token automaticaly.
-
-Setting Up Token Factory
+h2 Setting Up Token Factory
+-----------------------------------
 Make sure you have NPM Git installed
 Clone the repo by using git clone (insert repo here)
 Open a terminal, navigate to the project folder, and install OpenZeppelin
