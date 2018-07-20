@@ -24,9 +24,9 @@ contract TokenFactory {
     string _symbol,
     uint8 _decimals,
     uint _INITIAL_SUPPLY) public returns(address) {
-        token = address(new Token(_name, _symbol, _decimals, _INITIAL_SUPPLY, msg.sender));
+        address token = address(new Token(_name, _symbol, _decimals, _INITIAL_SUPPLY, msg.sender));
         tokens[msg.sender].push(token);
-        TokenCreated(msg.sender, token);
+        emit TokenCreated(msg.sender, token);
         return token;
     }
 
