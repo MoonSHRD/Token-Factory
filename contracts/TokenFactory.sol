@@ -1,7 +1,7 @@
 pragma solidity ^0.4.24;
-//import "./Token.sol";
+ import "./ST.sol";
 //import "zeppelin-solidity/contracts/token/ERC20/StandardToken.sol";
-import "./StandardToken.sol";
+//import "./StandardToken.sol";
 
 
 contract TokenFactory {
@@ -29,7 +29,7 @@ contract TokenFactory {
     uint _INITIAL_SUPPLY) public returns(address) {
     address token = 0x0;
     //    token = address(new Token(_name, _symbol, _decimals, _INITIAL_SUPPLY, msg.sender));
-          token = address(new StandardToken(_name,_symbol,_decimals,_INITIAL_SUPPLY));
+          token = address(new ST(_name,_symbol,_decimals,_INITIAL_SUPPLY));
     //    tokens[msg.sender].push(token);
         emit TokenCreated(msg.sender, token);
        return token;

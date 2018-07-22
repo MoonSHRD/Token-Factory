@@ -16,7 +16,7 @@ import { default as contract } from 'truffle-contract'
 // Import our contract artifacts and turn them into usable abstractions.
 //import token_artifacts from '../../build/contracts/BigToken.json'
 //import constructor_artifacts from '../../build/contracts/TokenConstructor.json'
-import token_artifacts from '../../build/contracts/Token.json'
+import token_artifacts from '../../build/contracts/ST.json'
 import token_artifacts2 from '../../build/contracts/TokenFactory.json'
 
 
@@ -379,7 +379,7 @@ deployContract: function(){
   var dec=18;
 
 
-  Token.new(val,name,dec,sym,{from:accounts[0],gas:3000000}).then(function(instance) {
+  Token.new(name,sym,dec,val,{from:accounts[0],gas:3000000}).then(function(instance) {
 
     if(!instance.address) {
          console.log("Contract transaction send: TransactionHash: " + instance.transactionHash + " waiting to be mined...");
