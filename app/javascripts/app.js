@@ -16,7 +16,7 @@ import { default as contract } from 'truffle-contract'
 // Import our contract artifacts and turn them into usable abstractions.
 //import token_artifacts from '../../build/contracts/BigToken.json'
 //import constructor_artifacts from '../../build/contracts/TokenConstructor.json'
-import token_artifacts from '../../build/contracts/ST.json'
+import token_artifacts from '../../build/contracts/DT.json'
 import token_artifacts2 from '../../build/contracts/TokenFactory.json'
 
 
@@ -410,7 +410,9 @@ createToken: function(){
   var self=this;
 
   var name=$("#t_name").val();
+  name=String(name);
   var sym=$("#t_sym").val();
+  sym=String(sym);
   var dec=$("#t_dec").val();
   dec=Number(dec);
   var val=$("#t_val").val();
