@@ -16,7 +16,7 @@ import { default as contract } from 'truffle-contract'
 // Import our contract artifacts and turn them into usable abstractions.
 //import token_artifacts from '../../build/contracts/BigToken.json'
 //import constructor_artifacts from '../../build/contracts/TokenConstructor.json'
-import token_artifacts from '../../build/contracts/TokenConstructor.json'
+import token_artifacts from '../../build/contracts/Token.json'
 import token_artifacts2 from '../../build/contracts/TokenFactory.json'
 
 
@@ -89,8 +89,8 @@ window.App = {
 
     });
 
-          var inst;
-        
+        //  var inst;
+
           Token.deployed().then(function (inst) {
             address=inst.address;
             console.log("address");
@@ -98,8 +98,8 @@ window.App = {
             //self.refreshAddress();
           });
 
-          var inst2;
-        
+      //    var inst2;
+
           Factory.deployed().then(function (inst2) {
             addressFactory=inst2.address;
             console.log("addressFactory");
@@ -205,7 +205,7 @@ sendToken: function () {
   var to = $("#transfer_to").val();
 
   val=web3.toWei(val);
-//  to=web3.toWei(val);
+
 
 
   Token.at(address).then(function(instance){
@@ -393,6 +393,11 @@ deployContract: function(){
    console.log(instance.address);
 
 });
+
+
+
+
+
 //Функция которая должна быть вызвана после размещения нового контракта.
 //event.stopWatching();
 //App.start();
@@ -414,7 +419,9 @@ createToken: function(){
   var tok;
   Factory.at(addressFactory).then(function(instance){
     tok=instance;
-
+    console.log("create token address factory");
+    console.log(tok);
+    console.log(name,sym,dec,val,account);
   return tok.createToken(name, sym, dec, val,{from: account})
    }).then(function (tx) {
         console.log("tx:");
@@ -425,7 +432,7 @@ createToken: function(){
       console.log(e);
     });
 
-  
+
 },
 
 startManager: function () {

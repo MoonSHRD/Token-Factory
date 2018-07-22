@@ -1,5 +1,8 @@
 pragma solidity ^0.4.24;
-import "./Token.sol";
+//import "./Token.sol";
+//import "zeppelin-solidity/contracts/token/ERC20/StandardToken.sol";
+import "./StandardToken.sol";
+
 
 contract TokenFactory {
     address dao;
@@ -24,10 +27,13 @@ contract TokenFactory {
     string _symbol,
     uint8 _decimals,
     uint _INITIAL_SUPPLY) public returns(address) {
-        address token = address(new Token(_name, _symbol, _decimals, _INITIAL_SUPPLY, msg.sender));
-        tokens[msg.sender].push(token);
+    address token = 0x0;
+    //    token = address(new Token(_name, _symbol, _decimals, _INITIAL_SUPPLY, msg.sender));
+          token = address(new StandardToken(_name,_symbol,_decimals,_INITIAL_SUPPLY));
+    //    tokens[msg.sender].push(token);
         emit TokenCreated(msg.sender, token);
-        return token;
+       return token;
+
     }
 
     function getTokens(address _owner) view public returns(address[]) {
