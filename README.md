@@ -24,7 +24,7 @@ This project include contracts:
 ***
 Development with truffle
 -----------------------------------
-1. ```npm install -g truffle ```
+1. ```npm install```
 2. Install ```ganache ``` from (https://truffleframework.com/ganache) if u want to start local dev ethereum node
 3. Start ganache or your ethereum node
 4. From project directory open terminal here are commands:
@@ -46,7 +46,8 @@ Development with truffle
 4. ` var inst= ST.at('past returned address here'); ` - create instance
 5.  `inst.symbol.call();`
 6. ` var fac = TokenFactory `
-7. `fac.deployed().then(function(instance){return instance.createToken("N","nn",9,10000);}).then(function(result){return result.logs;});` - function createToken from Factory
+7. `fac.deployed().then(function(instance){return instance.createSToken("N","nn",9,10000);}).then(function(result){return result.logs;});` - function createSToken from Factory
+8. `fac.deployed().then(function(instance){return instance.createToken("N","nn",9,10000);}).then(function(result){return result.logs;});` - function createToken from Factory (ownable token)
 
 
 
