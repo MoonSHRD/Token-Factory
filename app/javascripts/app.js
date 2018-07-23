@@ -16,7 +16,7 @@ import { default as contract } from 'truffle-contract'
 // Import our contract artifacts and turn them into usable abstractions.
 //import token_artifacts from '../../build/contracts/BigToken.json'
 //import constructor_artifacts from '../../build/contracts/TokenConstructor.json'
-import token_artifacts from '../../build/contracts/TokenConstructor.json'
+import token_artifacts from '../../build/contracts/DT.json'
 import token_artifacts2 from '../../build/contracts/TokenFactory.json'
 
 
@@ -89,8 +89,8 @@ window.App = {
 
     });
 
-          var inst;
-        
+        //  var inst;
+
           Token.deployed().then(function (inst) {
             address=inst.address;
             console.log("address");
@@ -98,8 +98,8 @@ window.App = {
             //self.refreshAddress();
           });
 
-          var inst2;
-        
+      //    var inst2;
+
           Factory.deployed().then(function (inst2) {
             addressFactory=inst2.address;
             console.log("addressFactory");
@@ -205,7 +205,7 @@ sendToken: function () {
   var to = $("#transfer_to").val();
 
   val=web3.toWei(val);
-//  to=web3.toWei(val);
+
 
 
   Token.at(address).then(function(instance){
@@ -379,7 +379,7 @@ deployContract: function(){
   var dec=18;
 
 
-  Token.new(val,name,dec,sym,{from:accounts[0],gas:3000000}).then(function(instance) {
+  Token.new(name,sym,dec,val,{from:accounts[0],gas:3000000}).then(function(instance) {
 
     if(!instance.address) {
          console.log("Contract transaction send: TransactionHash: " + instance.transactionHash + " waiting to be mined...");
@@ -393,6 +393,11 @@ deployContract: function(){
    console.log(instance.address);
 
 });
+
+
+
+
+
 //Функция которая должна быть вызвана после размещения нового контракта.
 //event.stopWatching();
 //App.start();
@@ -405,16 +410,20 @@ createToken: function(){
   var self=this;
 
   var name=$("#t_name").val();
+  name=String(name);
   var sym=$("#t_sym").val();
+  sym=String(sym);
   var dec=$("#t_dec").val();
   dec=Number(dec);
   var val=$("#t_val").val();
   val=Number(val);
 
   var tok;
-  Factory.at(addressFactory).then(function(instance){
+  Factory.deployed().then(function(instance){
     tok=instance;
-
+    console.log("create token address factory");
+    console.log(tok);
+    console.log(name,sym,dec,val,account);
   return tok.createToken(name, sym, dec, val,{from: account})
    }).then(function (tx) {
         console.log("tx:");
@@ -425,7 +434,7 @@ createToken: function(){
       console.log(e);
     });
 
-  
+
 },
 
 startManager: function () {
