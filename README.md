@@ -1,3 +1,17 @@
+
+
+
+
+
+## Status
+Contracts able to deploy through new interface, but creation through Token factory not working
+
+Interface(js) creation not working neither (probably cause of js types)
+
+
+
+
+
 **Token Factory**
 =====================
 This is project for generation new own Tokens.  
