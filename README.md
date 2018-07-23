@@ -9,18 +9,22 @@ Contracts able to deploy through `new` interface, or through `createToken` funct
 Interface(js) creation not working (probably cause of js types), have no time to fix it
 
 
+## TODO
 
+1. ERC721
+2. crowdsale token
+3. subscruption token
 
 
 **Token Factory**
 =====================
 This is project for generation new own Tokens.  
-  
+
 This project include contracts:  
 `ST.sol` - standard token contract template (erc20)
 `TokenFactory` - Factory
 `Token.sol` - token with ownership (not tested yet)
-  
+
 ***
 Development with truffle
 -----------------------------------
@@ -48,11 +52,3 @@ Development with truffle
 6. ` var fac = TokenFactory `
 7. `fac.deployed().then(function(instance){return instance.createSToken("N","nn",9,10000);}).then(function(result){return result.logs;});` - function createSToken from Factory
 8. `fac.deployed().then(function(instance){return instance.createToken("N","nn",9,10000);}).then(function(result){return result.logs;});` - function createToken from Factory (ownable token)
-
-
-
-
-
-
-
-
