@@ -419,7 +419,7 @@ createToken: function(){
   val=Number(val);
 
   var tok;
-  Factory.at(addressFactory).then(function(instance){
+  Factory.deployed().then(function(instance){
     tok=instance;
     console.log("create token address factory");
     console.log(tok);
