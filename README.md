@@ -11,9 +11,10 @@ Interface(js) creation not working (probably cause of js types), have no time to
 
 ## TODO
 
-1. ERC721
+1. ERC223 (separate branch)
 2. crowdsale token
-3. subscruption token
+3. basic subscruption token
+4. advanced subscription token
 
 
 **Token Factory**
