@@ -7,6 +7,9 @@ contract Token is StandardToken, Ownable {
     string public symbol;
     uint8 public decimals = 3;
     address public Factory;
+    // prepare URANUS
+    // probably need to reafactor it to a modifier
+    bool public prepared = false;
 
     constructor(string _name,
     string _symbol,
@@ -25,7 +28,10 @@ contract Token is StandardToken, Ownable {
 
     }
 
-   function prepareCrowdsale() public{
+   function prepareCrowdsale(address _crowdsale) public{
+     require(prepared == false);
+     balances[_crowdsale] = totalSupply_;
+     prepared = true;
 
 
    }
