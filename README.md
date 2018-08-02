@@ -17,10 +17,11 @@ Interface(js) creation not working (probably cause of js types), have no time to
 
 ## TODO
 
-1. ERC223 (separate branch)
-2. crowdsale token - *done*
-3. basic subscruption token
-4. advanced subscription token
+
+1. crowdsale token - *done*
+2. basic subscruption token
+3. advanced subscription token
+4. ERC223 (separate branch)
 
 
 **Token Factory**
@@ -40,12 +41,7 @@ Development with truffle
 2. Install ```ganache ``` from (https://truffleframework.com/ganache) if u want to start local dev ethereum node
 3. Start ganache or your ethereum node
 4. From project directory open terminal here are commands:
-			`truffle migrate`  - deploy contracts described in migrations
-			   `truffle migrate --reset` - deploy contracts, reseting migration counter
-			`truffle compile` - compile contracts
-			`npm build` - create dapp interface build from app.js
-			`npm run build` - create dapp interface, run server on localhost:8080 and watch for changes
-			`truffle console` - dev console attach
+			`truffle migrate --reset`
 
 5. note that intarface was not updated from Bigfund token manager, so it's not working propriate for now. I think something wrong with types definytion but I have no time to work on it now.
 
