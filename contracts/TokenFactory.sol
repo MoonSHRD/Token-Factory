@@ -38,6 +38,34 @@ contract TokenFactory {
     }
 */
 
+/*  Appendix
+
+    function createCrowdsaleToken(){
+
+
+
+    }
+*/
+
+// Function that create Token, crowdsale contract and start it at once
+// Note that it can be burn a lot of gas, so I think we need to split this function in the future
+function createToken(string _name,
+string _symbol,
+
+uint _INITIAL_SUPPLY) public returns(address) {
+address token = 0x0;
+    token = address(new Token(_name, _symbol, _INITIAL_SUPPLY, msg.sender));
+
+    tokens[msg.sender].push(token);
+    emit TokenCreated(msg.sender, token);
+   return token;
+
+}
+
+
+
+
+/* function that create Simple Token without crowdsale
     function createToken(string _name,
     string _symbol,
 
@@ -50,7 +78,7 @@ contract TokenFactory {
        return token;
 
     }
-
+*/
 
     function getTokens(address _owner) view public returns(address[]) {
         return tokens[_owner];

@@ -22,5 +22,16 @@ contract Token is StandardToken, Ownable {
         //balances go to the owner normally
         // Keep closed if we want to transfer tokens to the crowdsale
       //  balances[owner] = totalSupply_;
+
     }
+
+   function prepareCrowdsale() public{
+
+
+   }
+
+
+
+
+
 }
