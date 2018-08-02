@@ -1,5 +1,5 @@
 pragma solidity ^0.4.24;
- import "./ST.sol";
+
 
 import "./Token.sol";
 
@@ -9,7 +9,7 @@ contract TokenFactory {
     mapping (address => address[]) public tokens;
 
     constructor() public {
-        dao = msg.sender;
+        god = msg.sender;
     }
 
     modifier onlyGod(){
@@ -22,7 +22,7 @@ contract TokenFactory {
     function changeAdresses(address _god) public onlyGod {
         god = _god;
     }
-
+/*
     function createSToken(string _name,
     string _symbol,
     uint8 _decimals,
@@ -36,13 +36,14 @@ contract TokenFactory {
        return token;
 
     }
+*/
 
     function createToken(string _name,
     string _symbol,
-    uint8 _decimals,
+
     uint _INITIAL_SUPPLY) public returns(address) {
     address token = 0x0;
-        token = address(new Token(_name, _symbol, _decimals, _INITIAL_SUPPLY, msg.sender));
+        token = address(new Token(_name, _symbol, _INITIAL_SUPPLY, msg.sender));
 
         tokens[msg.sender].push(token);
         emit TokenCreated(msg.sender, token);
