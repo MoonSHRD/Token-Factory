@@ -6,13 +6,19 @@
 ## Status
 Contracts able to deploy through `new` interface, or through `createToken` function on TokenFactory
 
+Crowdsale token (basic implementation) can be created by  `createCrowdsaleToken` - it will deploy
+Standard Token with given parameters, then it will deploy standard Crowdsale contract with given parameters
+and than it will transfer `totalSupply_` to crowdsale contract.
+
+Has not been tested properly yet.
+
 Interface(js) creation not working (probably cause of js types), have no time to fix it
 
 
 ## TODO
 
 1. ERC223 (separate branch)
-2. crowdsale token
+2. crowdsale token - *done*
 3. basic subscruption token
 4. advanced subscription token
 
@@ -24,7 +30,8 @@ This is project for generation new own Tokens.
 This project include contracts:  
 `ST.sol` - standard token contract template (erc20)
 `TokenFactory` - Factory
-`Token.sol` - token with ownership (not tested yet)
+`Token.sol` - token with ownership
+
 
 ***
 Development with truffle
@@ -33,13 +40,13 @@ Development with truffle
 2. Install ```ganache ``` from (https://truffleframework.com/ganache) if u want to start local dev ethereum node
 3. Start ganache or your ethereum node
 4. From project directory open terminal here are commands:
-			``` truffle migrate  - deploy contracts described in migrations
-			   truffle migrate --reset - deploy contracts, reseting migration counter
-			truffle compile - compile contracts
-			npm build - create dapp interface build from app.js
-			npm run build - create dapp interface, run server on localhost:8080 and watch for changes
-			truffle console - dev console attach
-			```
+			`truffle migrate`  - deploy contracts described in migrations
+			   `truffle migrate --reset` - deploy contracts, reseting migration counter
+			`truffle compile` - compile contracts
+			`npm build` - create dapp interface build from app.js
+			`npm run build` - create dapp interface, run server on localhost:8080 and watch for changes
+			`truffle console` - dev console attach
+
 5. note that intarface was not updated from Bigfund token manager, so it's not working propriate for now. I think something wrong with types definytion but I have no time to work on it now.
 
 ***
