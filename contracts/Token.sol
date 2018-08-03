@@ -5,7 +5,7 @@ import "zeppelin-solidity/contracts/ownership/Ownable.sol";
 contract Token is StandardToken, Ownable {
     string public name;
     string public symbol;
-    uint8 public decimals = 3;
+    uint8 public decimals;
     address public Factory;
     // prepare URANUS
     // probably need to reafactor it to a modifier
@@ -13,12 +13,12 @@ contract Token is StandardToken, Ownable {
 
     constructor(string _name,
     string _symbol,
-
+    uint8 _decimals,
     uint _INITIAL_SUPPLY,
     address _owner) public {
         name = _name;
         symbol = _symbol;
-
+        decimals = _decimals;
         totalSupply_ = _INITIAL_SUPPLY;
         Factory = msg.sender;
         owner = _owner;

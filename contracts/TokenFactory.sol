@@ -34,9 +34,9 @@ contract TokenFactory {
 // Function that create Token, crowdsale contract and start it at once
 // Note that it can be burn a lot of gas, so I think we need to split this function in the future
      function createCrowdsaleToken(string _name,
-     string _symbol,
+     string _symbol, uint8 _decimals,
      uint _INITIAL_SUPPLY, uint256 _rate, address _wallet) public returns(Token,address){
-       Token tok = createToken(_name,_symbol,_INITIAL_SUPPLY);
+       Token tok = createToken(_name,_symbol,_decimals,_INITIAL_SUPPLY);
     //   Token tok = Token(new Token(_name, _symbol, _INITIAL_SUPPLY, msg.sender));
        address crd = createCrowdsale(_rate,_wallet,tok);
        tok.prepareCrowdsale(crd);
@@ -59,10 +59,10 @@ contract TokenFactory {
 // Returns Token object with new address
     function createToken(string _name,
     string _symbol,
-
+    uint8 _decimals,
     uint _INITIAL_SUPPLY) public returns(Token) {
   //  address token = 0x0;
-      Token token = Token(new Token(_name, _symbol, _INITIAL_SUPPLY, msg.sender));
+      Token token = Token(new Token(_name, _symbol, _decimals, _INITIAL_SUPPLY, msg.sender));
 
         tokens[msg.sender].push(token);
         emit TokenCreated(msg.sender, token);
