@@ -1,5 +1,7 @@
-var Contracts = artifacts.require("./TokenFactory.sol");
+var TFactory = artifacts.require("./TokenFactory.sol");
+var SFactory = artifacts.require("./SubFactory.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(Contracts);
+  deployer.deploy(TFactory);
+  deployer.deploy(SFactory);
 };
