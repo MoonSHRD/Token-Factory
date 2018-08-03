@@ -33,6 +33,42 @@ This project include contracts:
 `TokenFactory` - Factory
 `Token.sol` - token with ownership
 
+## Rates, crowdsale prices and how can I live rest of my life about it?
+
+` function createCrowdsaleToken(string _name,
+ string _symbol, uint8 _decimals,
+ uint _INITIAL_SUPPLY, uint256 _rate, address _wallet) public returns(Token,address){
+	 Token tok = createToken(_name,_symbol,_decimals,_INITIAL_SUPPLY);
+//   Token tok = Token(new Token(_name, _symbol, _INITIAL_SUPPLY, msg.sender));
+	 address crd = createCrowdsale(_rate,_wallet,tok);
+	 tok.prepareCrowdsale(crd);
+	 return (tok,crd);
+
+
+}`
+
+	As you can see, function awaits parameters 'decimals' and 'rate' to understand the price
+	of token user want to set up.
+
+	The lowest undividable unit in token should be setup by the 'decimals' parameter.
+	For example, if we want lowest unit as 0,001, then we should set up the decimals in value 3.
+
+	Ethereum itself has the lowest unit called `Wei` and has decimals value 18, so if
+	we suggest that 1 moonshard is 1$, and we creating new token with decimals 18 and rate =1, then
+	price for 1 NewToken = 1$.
+
+	If we will move decimals forward or backward we can get 1 NewToken = 10$ when decimals = 19 and
+	1 NewToken = 0,1$ when decimals = 17, therefore we can change price of token moving floating point like that.
+
+	Other parameter for price is _rate_ . This mean conversion rate, or how many tokens buyer getting per
+	one payable unit.
+
+	For example when d=18 and r=1 buyer get 1 token per 1$. If rate is 2, than 2 token per 1$. In second case price of the token will be 0,5$ and so on
+
+
+	Probably we should to implement some mechanism of dynamic price calculation on client side. (for autocalculation decimals and rate for given user price)
+
+
 
 ***
 Development with truffle
