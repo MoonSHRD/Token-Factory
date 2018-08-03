@@ -38,17 +38,6 @@ This project include contracts:
 
 ## Rates, crowdsale prices and how can I live rest of my life about it?
 
-` function createCrowdsaleToken(string _name,
- string _symbol, uint8 _decimals,
- uint _INITIAL_SUPPLY, uint256 _rate, address _wallet) public returns(Token,address){
-	 Token tok = createToken(_name,_symbol,_decimals,_INITIAL_SUPPLY);
-//   Token tok = Token(new Token(_name, _symbol, _INITIAL_SUPPLY, msg.sender));
-	 address crd = createCrowdsale(_rate,_wallet,tok);
-	 tok.prepareCrowdsale(crd);
-	 return (tok,crd);
-
-
-}`
 
 	As you can see, function awaits parameters 'decimals' and 'rate' to understand the price
 	of token user want to set up.
