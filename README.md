@@ -19,9 +19,12 @@ Interface(js) creation not working (probably cause of js types), have no time to
 
 
 1. crowdsale token - *done*
-2. basic subscruption token
-3. advanced subscription token
-4. ERC223 (separate branch)
+2. basic subscruption token - *done*
+3. advanced subscription token - *delayed*
+4. ERC223 (separate branch) - *delayed*
+
+
+Need to test everything
 
 
 **Token Factory**
@@ -68,6 +71,19 @@ This project include contracts:
 
 	Probably we should to implement some mechanism of dynamic price calculation on client side. (for autocalculation decimals and rate for given user price)
 
+## Subscription
+
+Subscritption is a basic contract for subscription managment
+`signUp` - procceed a `transferFrom` from a msg.sender, taking 1 token for subscription deposit
+think about it as "subscription activision".
+`signOut` - return token to a user,stopping subscription.
+`banUser` - remove user subscription, token return to a crowdsale contract (I'm not really sure what to do with that)
+
+	Messeneger server should recive state updates about subscription through events from this contract.
+
+
+	`SubFactory` deploy new subscription contracts, receiving addresses of token,chat owner and crowdsale address (for return).
+
 
 
 ***
@@ -82,7 +98,7 @@ Development with truffle
 5. note that intarface was not updated from Bigfund token manager, so it's not working propriate for now. I think something wrong with types definytion but I have no time to work on it now.
 
 ***
-## How to interact with contracts
+## How to interact with contracts on example
 
 1. ``` truffle console ```
 2. ``` migrate --reset ```
