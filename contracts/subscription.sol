@@ -7,7 +7,7 @@ pragma solidity ^0.4.24;
 import "./Token.sol";
 import "zeppelin-solidity/contracts/ownership/Ownable.sol";
 
-contract Subsctiption is Ownable {
+contract Subscription is Ownable {
 
   Token token;
   mapping (address => uint) public users;
@@ -22,21 +22,21 @@ contract Subsctiption is Ownable {
 
   }
 
-  function signUp(){
+  function signUp() public{
 
     uint am = 1 * 1 ether;
     token.transferFrom(msg.sender,this,am);
     users[msg.sender]=am;
   }
 
-  function signOut(){
+  function signOut() public{
     uint am = 1 * 1 ether;
     token.transfer(msg.sender,am);
     users[msg.sender]=0;
 
   }
 
-  function banUser(address _user){
+  function banUser(address _user) public onlyOwner {
 
     uint am = 1 * 1 ether;
     token.transfer(crowdsale,am);
