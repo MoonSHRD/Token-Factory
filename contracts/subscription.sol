@@ -22,6 +22,7 @@ contract Subscription is Ownable {
   event signedUp(address who);
   event signedOut(address who);
   event banned(address who);
+  event adPaid(address who, bytes hashmsg);
 
   constructor(address _token, address _owner, address _crowdsale) public {
 
@@ -56,11 +57,20 @@ contract Subscription is Ownable {
 
   }
 
+  // Set up price for commercials
   function setAdPrice(uint _price) public onlyOwner returns(uint) {
     ad_price = _price;
     return ad_price;
 
   }
 
+  //buing commercials basic appendix
+  function buyAd(bytes _hash) public {
+    require(ad_price>0);
+    // запрашиваем перевод токенов владельцу
+    require(token.transferFrom(msg.sender,owner,ad_price));
+    // emit event that sender has paid for the ad with given hash
+    emit adPaid(msg.sender,_hash);
+  }
 
 }
