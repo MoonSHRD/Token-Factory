@@ -28,7 +28,12 @@ contract Token is StandardToken, Ownable {
 
     }
 
-   function prepareCrowdsale(address _crowdsale) public{
+    modifier onlyFactory(){
+        require(msg.sender != Factory);
+        _;
+    }
+
+   function prepareCrowdsale(address _crowdsale) public onlyFactory{
      require(prepared == false);
      balances[_crowdsale] = totalSupply_;
      prepared = true;
