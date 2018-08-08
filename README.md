@@ -10,6 +10,14 @@ Crowdsale token (basic implementation) can be created by  `createCrowdsaleToken`
 Standard Token with given parameters, then it will deploy standard Crowdsale contract with given parameters
 and than it will transfer `totalSupply_` to crowdsale contract.
 
+**subscription** contract able to deploy through `createSubscription` interface on `SubFactory.sol`
+it awaits addresses of owner, chat token and crowdsale of this token.
+Subscription contract allow to signIn, signOut from a chat/channel using tokens, which have been bought through crowdsale. It's also allow to buy **advertisment** on the channel for tokens and
+also have a _ban_ function.
+
+NOTE that now it is only basic functionality for advertisment functions and owner
+cannot accept or reject ad proposals yet
+
 Has not been tested properly yet.
 
 Interface(js) creation not working (probably cause of js types), have no time to fix it
@@ -20,8 +28,8 @@ Interface(js) creation not working (probably cause of js types), have no time to
 
 1. crowdsale token - *done*
 2. basic subscruption token - *done*
-3. advanced subscription token - *delayed*
-4. ERC223 (separate branch) - *delayed*
+3. basic advertisment sell functionality - *done*
+4. improved advertisment sell functionality - *delayed*
 
 
 Need to test everything
@@ -35,6 +43,9 @@ This project include contracts:
 `ST.sol` - standard token contract template (erc20)
 `TokenFactory` - Factory
 `Token.sol` - token with ownership
+`SubFactory.sol` - factory which deploy new subscription Contracts
+`subscription.sol` - subscription contract allow users to signIn or signOut, buying
+ads, allow owner to ban user
 
 ## Rates, crowdsale prices and how can I live rest of my life about it?
 
@@ -67,6 +78,8 @@ Subscritption is a basic contract for subscription managment
 think about it as "subscription activision".
 `signOut` - return token to a user,stopping subscription.
 `banUser` - remove user subscription, token return to a crowdsale contract (I'm not really sure what to do with that)
+`setAdPrice` - set price for advertisment in chat, should be set in tokens, in minamal unit format (wei for standard decimals = 18)
+`buyAd` - buy advertisment in chat, basic functionality, request payment in tokens, returns event with given ad.message hash
 
 	Messeneger server should recive state updates about subscription through events from this contract.
 

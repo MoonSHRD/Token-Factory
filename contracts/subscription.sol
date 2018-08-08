@@ -5,6 +5,14 @@
   probably we need to set multiplex = token decimals or we need to set 18 _decimals
   as a standard token decimals
 
+  advertisment is selling for tokens, price is setting up by owner of Subscription
+  it will give us ability to separate price for subscription and price for advertisment
+  inside channel, so user can buy subscription for 0.01$ but by advertisment for 100$ for example
+
+  NOTE also that for now it is only basic functionality for buing advertisment
+  in the future I suppose we need to improve this, to give owner ability to accept OR
+  reject incoming ads proposals before accepting payments
+
 */
 
 pragma solidity ^0.4.24;
