@@ -5,6 +5,14 @@
   probably we need to set multiplex = token decimals or we need to set 18 _decimals
   as a standard token decimals
 
+  advertisment is selling for tokens, price is setting up by owner of Subscription
+  it will give us ability to separate price for subscription and price for advertisment
+  inside channel, so user can buy subscription for 0.01$ but by advertisment for 100$ for example
+
+  NOTE also that for now it is only basic functionality for buing advertisment
+  in the future I suppose we need to improve this, to give owner ability to accept OR
+  reject incoming ads proposals before accepting payments
+
 */
 
 pragma solidity ^0.4.24;
@@ -17,10 +25,12 @@ contract Subscription is Ownable {
   Token token;
   mapping (address => uint) public users;
   address crowdsale;
+  uint ad_price; // price for commercials
 
   event signedUp(address who);
   event signedOut(address who);
   event banned(address who);
+  event adPaid(address who, bytes hashmsg);
 
   constructor(address _token, address _owner, address _crowdsale) public {
 
@@ -36,14 +46,14 @@ contract Subscription is Ownable {
     uint am = 1 * 1 ether;
     token.transferFrom(msg.sender,this,am);
     users[msg.sender]=am;
-    signedUp(msg.sender);
+    emit signedUp(msg.sender);
   }
 
   function signOut() public{
     uint am = 1 * 1 ether;
     token.transfer(msg.sender,am);
     users[msg.sender]=0;
-    signedOut(msg.sender);
+    emit signedOut(msg.sender);
   }
 
   function banUser(address _user) public onlyOwner {
@@ -51,9 +61,24 @@ contract Subscription is Ownable {
     uint am = 1 * 1 ether;
     token.transfer(crowdsale,am);
     users[_user]=0;
-    banned(msg.sender);
+    emit banned(msg.sender);
 
   }
 
+  // Set up price for commercials
+  function setAdPrice(uint _price) public onlyOwner returns(uint) {
+    ad_price = _price;
+    return ad_price;
+
+  }
+
+  //buing commercials basic appendix
+  function buyAd(bytes _hash) public {
+    require(ad_price>0);
+    // запрашиваем перевод токенов владельцу
+    require(token.transferFrom(msg.sender,owner,ad_price));
+    // emit event that sender has paid for the ad with given hash
+    emit adPaid(msg.sender,_hash);
+  }
 
 }

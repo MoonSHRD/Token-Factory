@@ -1,5 +1,10 @@
 pragma solidity ^0.4.24;
 
+/*
+  Factory for deployment new subscription contracts
+
+*/
+
 import "./subscription.sol";
 
 
