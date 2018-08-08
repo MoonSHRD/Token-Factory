@@ -87,6 +87,26 @@ think about it as "subscription activision".
 
 	`SubFactory` deploy new subscription contracts, receiving addresses of token,chat owner and crowdsale address (for return).
 
+## Subscription and Advertisment sale scenario: How to set up ad price correctly
+Let's imagine that we are channel owner and we want to set up a price for commercial in our blog
+
+As far as we decided that our content is free of charge and we want to sell commercial instead of setting paywall for subscribers
+In this case we need to set up a lowest price for entry and high price for them who want to buy commercial
+
+Therefore we set up `rate` variable in crowdsale to 100, which will give us token price in USD = 0.001$.
+Then we want to sell our commersial by 100$ per one - in this case we should set up price for ad in our subscription contract as
+100*100= 10 000 (tokens)
+
+Universale formula for setting up a advertisment price is:
+
+`
+	ad_price = n*r*decimals
+	when n = price in USD for commersials
+	r = exchange rate between MoonShard token (equal to USD)
+	decimals = decimals of user (chat) token. I think we really need to set up one standard decimal for all user tokens(18)
+	
+	I assume that users don't need to know about decimals, so we just will use web3.toWei(amount) in wallet interface
+`
 
 
 ***
