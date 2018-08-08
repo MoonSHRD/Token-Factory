@@ -17,6 +17,7 @@ contract Subscription is Ownable {
   Token token;
   mapping (address => uint) public users;
   address crowdsale;
+  uint ad_price; // price for commercials
 
   event signedUp(address who);
   event signedOut(address who);
@@ -52,6 +53,12 @@ contract Subscription is Ownable {
     token.transfer(crowdsale,am);
     users[_user]=0;
     banned(msg.sender);
+
+  }
+
+  function setAdPrice(uint _price) public onlyOwner returns(uint) {
+    ad_price = _price;
+    return ad_price;
 
   }
 
