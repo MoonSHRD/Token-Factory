@@ -30,6 +30,7 @@ Interface(js) creation not working (probably cause of js types), have no time to
 2. basic subscruption token - *done*
 3. basic advertisment sell functionality - *done*
 4. improved advertisment sell functionality - *delayed*
+5. fix markdown in this readme
 
 
 Need to test everything
