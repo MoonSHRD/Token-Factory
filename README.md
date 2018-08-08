@@ -99,16 +99,14 @@ Then we want to sell our commersial by 100$ per one - in this case we should set
 
 Universale formula for setting up a advertisment price is:
 
-`
 	ad_price = n*r*decimals
+	
 	when n = price in USD for commersials
 	r = exchange rate between MoonShard token (equal to USD)
-	decimals = decimals of user (chat) token. I think we really need to set up one standard decimal for all user tokens(18)
+	decimals = decimals of user (chat) token. 
+	I think we really need to set up one standard decimal for all user tokens(18)
 	
-	I assume that users don't need to know about decimals, so we just will use web3.toWei(amount) in wallet interface
-`
-
-
+	
 ***
 Development with truffle
 -----------------------------------
