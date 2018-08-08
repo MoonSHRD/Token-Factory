@@ -8,7 +8,7 @@ contract Migrations {
     if (msg.sender == owner) _;
   }
 
-/*
+/* Such invocation of constructor method is depricated
   function Migrations() public {
     owner = msg.sender;
   }

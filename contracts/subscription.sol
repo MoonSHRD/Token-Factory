@@ -1,4 +1,9 @@
-/* Contract of basica subscription
+/* Contract of basic subscription
+
+  NOTE that thic contract require 1 whole token (with 18 decimals) to subscribe
+  this mechanics possible will break if token has not 18 decimals.
+  probably we need to set multiplex = token decimals or we need to set 18 _decimals
+  as a standard token decimals
 
 */
 
