@@ -37,14 +37,14 @@ contract Subscription is Ownable {
     uint am = 1 * 1 ether;
     token.transferFrom(msg.sender,this,am);
     users[msg.sender]=am;
-    signedUp(msg.sender);
+    emit signedUp(msg.sender);
   }
 
   function signOut() public{
     uint am = 1 * 1 ether;
     token.transfer(msg.sender,am);
     users[msg.sender]=0;
-    signedOut(msg.sender);
+    emit signedOut(msg.sender);
   }
 
   function banUser(address _user) public onlyOwner {
@@ -52,7 +52,7 @@ contract Subscription is Ownable {
     uint am = 1 * 1 ether;
     token.transfer(crowdsale,am);
     users[_user]=0;
-    banned(msg.sender);
+    emit banned(msg.sender);
 
   }
 
