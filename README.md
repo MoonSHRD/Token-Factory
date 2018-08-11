@@ -72,6 +72,25 @@ ads, allow owner to ban user
 
 	Probably we should to implement some mechanism of dynamic price calculation on client side. (for autocalculation decimals and rate for given user price)
 
+## Dynamic price (USD) and Decimals calculation on Frontend side
+There is a method to dynamicly calculate `rate` and `decimals` by USD price on frontend side
+
+To do this, take formula
+```
+Crowdsale mechanics work like 1$=(1*r) tokens.
+that mean that
+p=1/r
+r=1/p
+```
+therefore we understand, that if we want to set up crowdsale price as 6$ for a token, than `rate=1/6=0.16`
+### What about decimals, you ask?
+As we undarstand, that Ethereum doesn't support float numbers, we have a problem with correct setting of rate in cases when 1 token is cost bigger than 1$, like when rate should be equal to `0.16`
+in such cases we should increase number of decimals in the side we want to move the _point_
+
+In our example, as rate should be setted to 0.16 it is means that we create token with 18+2 decimals value and give rate=16.
+
+**this also means, that frontend intarface should ALWAYS ask about decimals before moving funds**
+
 ## Subscription
 
 Subscritption is a basic contract for subscription managment
@@ -100,13 +119,13 @@ Then we want to sell our commersial by 100$ per one - in this case we should set
 Universale formula for setting up a advertisment price is:
 
 	ad_price = n*r*decimals
-	
+
 	when n = price in USD for commersials
 	r = exchange rate between MoonShard token (equal to USD)
-	decimals = decimals of user (chat) token. 
+	decimals = decimals of user (chat) token.
 	I think we really need to set up one standard decimal for all user tokens(18)
-	
-	
+
+
 ***
 Development with truffle
 -----------------------------------
