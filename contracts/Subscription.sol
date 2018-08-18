@@ -45,6 +45,11 @@ contract Subscription is Ownable {
 
   }
 
+  function getUsers(address _user) public view returns(uint){
+    uint user = users[_user];
+    return user;
+  }
+
   function setUnit() internal returns (bool) {
     uint n = decimals - 1;
     mainUnit = 10 ** n;
@@ -77,6 +82,7 @@ contract Subscription is Ownable {
   }
 
   // Set up price for commercials
+  // Price should be setted in TOKEN format, i.g. token per show
   function setAdPrice(uint _price) public onlyOwner returns(uint) {
     ad_price = _price;
     return ad_price;
