@@ -38,7 +38,10 @@ contract Antispam is Ownable {
     depo_price = 0;
   }
 
-
+  function getUsers(address _user) public view returns(uint){
+    uint user = users[_user];
+    return user;
+  }
 
   function signUp() public payable{
 

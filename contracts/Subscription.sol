@@ -45,6 +45,11 @@ contract Subscription is Ownable {
 
   }
 
+  function getUsers(address _user) public view returns(uint){
+    uint user = users[_user];
+    return user;
+  }
+
   function setUnit() internal returns (bool) {
     uint n = decimals - 1;
     mainUnit = 10 ** n;
