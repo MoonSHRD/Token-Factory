@@ -25,8 +25,9 @@ contract Subscription is Ownable {
   Token token;
   mapping (address => uint) public users;
   address crowdsale;
-  uint ad_price; // price for commercials
+  uint public ad_price; // price for commercials
   uint8 public decimals;
+  uint public mainUnit;
 
   event signedUp(address who);
   event signedOut(address who);
@@ -40,31 +41,27 @@ contract Subscription is Ownable {
     crowdsale = _crowdsale;
 
     decimals = token.decimals();
-// uint8 dec = token.decimals;
-  //  decimals = dec;
+    setUnit();
 
   }
 
-/*
-  function askDecimals() public returns (uint8){
-  uint8 result = token.decimals;
-    return result;
-
+  function setUnit() internal returns (bool) {
+    uint n = decimals - 1;
+    mainUnit = 10 ** n;
+    return true;
   }
-  */
-
 
 
   function signUp() public{
 
-    uint am = 1 * 1 ether;
+    uint am = 1 * mainUnit;
     token.transferFrom(msg.sender,this,am);
     users[msg.sender]=am;
     emit signedUp(msg.sender);
   }
 
   function signOut() public{
-    uint am = 1 * 1 ether;
+    uint am = 1 * mainUnit;
     token.transfer(msg.sender,am);
     users[msg.sender]=0;
     emit signedOut(msg.sender);
@@ -72,7 +69,7 @@ contract Subscription is Ownable {
 
   function banUser(address _user) public onlyOwner {
 
-    uint am = 1 * 1 ether;
+    uint am = 1 * mainUnit;
     token.transfer(crowdsale,am);
     users[_user]=0;
     emit banned(msg.sender);
