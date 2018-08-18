@@ -41,7 +41,11 @@ contract Token is StandardToken, Ownable {
 
    }
 
-
+/*
+   function askDecimals() public returns (uint8){
+   uint8 result = decimals;
+   return result;
+*/
 
 
 

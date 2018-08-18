@@ -26,6 +26,7 @@ contract Subscription is Ownable {
   mapping (address => uint) public users;
   address crowdsale;
   uint ad_price; // price for commercials
+  uint8 public decimals;
 
   event signedUp(address who);
   event signedOut(address who);
@@ -37,9 +38,22 @@ contract Subscription is Ownable {
     token = Token(_token);
     owner = _owner;
     crowdsale = _crowdsale;
-
+  //  decimals = token.askDecimals();
+//    decimals = token.decimals;
+// uint8 dec = token.decimals;
+  //  decimals = dec;
 
   }
+
+/*
+  function askDecimals() public returns (uint8){
+  uint8 result = token.decimals;
+    return result;
+
+  }
+  */
+
+
 
   function signUp() public{
 
