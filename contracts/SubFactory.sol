@@ -5,7 +5,7 @@ pragma solidity ^0.4.24;
 
 */
 
-import "./subscription.sol";
+import "./Subscription.sol";
 
 
 contract SubFactory {
