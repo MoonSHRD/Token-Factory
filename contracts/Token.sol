@@ -42,6 +42,13 @@ contract Token is StandardToken, Ownable {
    }
 
 /*
+    NOTE  BUG found - when you try to implement function below
+    solidity compiler with truffle will CRUSH, killing truffle location map with
+    it. Don't know why is it happening, but obviously it is not expected
+    behavior
+
+
+
    function askDecimals() public returns (uint8){
    uint8 result = decimals;
    return result;
