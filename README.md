@@ -20,7 +20,6 @@ cannot accept or reject ad proposals yet
 
 Has not been tested properly yet.
 
-Interface(js) creation not working (probably cause of js types), have no time to fix it
 
 
 ## TODO
