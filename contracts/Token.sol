@@ -47,6 +47,12 @@ contract Token is StandardToken, Ownable {
     it. Don't know why is it happening, but obviously it is not expected
     behavior
 
+    Example of exeption I got:
+    'truffle compile
+Error parsing /home/jack/ethProjects/Token-Factory/contracts/Token.sol: ParsedContract.sol:55:1: ParserError: Function, variable, struct or modifier declaration expected.
+import '__Truffle__NotFound.sol';
+^----^
+'
 
 
    function askDecimals() public returns (uint8){

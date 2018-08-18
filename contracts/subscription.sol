@@ -38,8 +38,8 @@ contract Subscription is Ownable {
     token = Token(_token);
     owner = _owner;
     crowdsale = _crowdsale;
-    decimals = token.askDecimals();
-//    decimals = token.decimals;
+
+    decimals = token.decimals();
 // uint8 dec = token.decimals;
   //  decimals = dec;
 
