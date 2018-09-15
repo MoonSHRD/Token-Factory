@@ -1,51 +1,50 @@
 
+#**Token Factory**
+=====================
+
+MoonShard - is a blog platform, which use model __token-as-a-subscription__
 
 
+Therefore each channel or chat inside MoonShard have it's own token.
 
+This means, for example, that each time someone subscribe on __closed__ blog -
+he **buy** the token of the channel. Then, these tokens can be gifted to someone else like literally paid subscriptions to specifiec channel
 
-## Status
-Contracts able to deploy through `new` interface, or through `createToken` function on TokenFactory
+Otherwise, if author want to keep his original content free to anyone, he can **accept** money for sponsorship and make a protected deals for  negotiation of **sponsorship** content.
 
-Crowdsale token (basic implementation) can be created by  `createCrowdsaleToken` - it will deploy
-Standard Token with given parameters, then it will deploy standard Crowdsale contract with given parameters
+These tokens also can be a 'share' what give ordinary subscriber get a share from given sponsorhip payment as sponsor prize.
+
+Tokens can be also distributed among subscribers for a high activity in the channel/chat, what give author opportunity to distribute it's own token.
+
+Community can exchange tokens for some reward from a sponsorship or an author lottery
+
+This far a possible use-cases for __token-as-a-subcription__ :
+- exhangable and giftable  subscription
+- season pass
+- share of sponsorship money
+- game tokens
+- communty points (karma)
+- aviability secure sells sponsorhip content
+
+**Mesh functionality and possabilities described somewhere else**
+
+## Status (important notes for developers)
+
+Crowdsale token (basic implementation) can be created by  `createCrowdsaleToken` - it will deploy Standard Token with given parameters, then it will deploy standard Crowdsale contract with given parameters
 and than it will transfer `totalSupply_` to crowdsale contract.
+Then you should deploy subscription through `subFactory` contract
 
 **subscription** contract able to deploy through `createSubscription` interface on `SubFactory.sol`
 it awaits addresses of owner, chat token and crowdsale of this token.
-Subscription contract allow to signIn, signOut from a chat/channel using tokens, which have been bought through crowdsale. It's also allow to buy **advertisment** on the channel for tokens and
+Subscription contract allow to signIn, signOut from a chat/channel using tokens, which have been bought through crowdsale.
+It's also now allow create **sponsorship offer** through `start` function in subscription contract
 also have a _ban_ function.
 
-NOTE that now it is only basic functionality for advertisment functions and owner
-cannot accept or reject ad proposals yet
+Antispam contract is too raw to deploy
 
 Has not been tested properly yet.
 
 
-
-## TODO
-
-
-1. crowdsale token - *done*
-2. basic subscruption token - *done*
-3. basic advertisment sell functionality - *done*
-4. improved advertisment sell functionality - *delayed*
-5. fix markdown in this readme
-
-
-Need to test everything
-
-
-**Token Factory**
-=====================
-This is project for generation new own Tokens.  
-
-This project include contracts:  
-`ST.sol` - standard token contract template (erc20)
-`TokenFactory` - Factory
-`Token.sol` - token with ownership
-`SubFactory.sol` - factory which deploy new subscription Contracts
-`subscription.sol` - subscription contract allow users to signIn or signOut, buying
-ads, allow owner to ban user
 
 ## Rates, crowdsale prices and how can I live rest of my life about it?
 
@@ -97,10 +96,14 @@ Subscritption is a basic contract for subscription managment
 think about it as "subscription activision".
 `signOut` - return token to a user,stopping subscription.
 `banUser` - remove user subscription, token return to a crowdsale contract (I'm not really sure what to do with that)
-`setAdPrice` - set price for advertisment in chat, should be set in tokens, in minamal unit format (wei for standard decimals = 18)
-`buyAd` - buy advertisment in chat, basic functionality, request payment in tokens, returns event with given ad.message hash
 
-	Messeneger server should recive state updates about subscription through events from this contract.
+Now for buying sponsorship you should buy channel token first, then open deal dialog
+
+When all details was cleared, sponsor should send `approve` with subscription contract address __then__ he should finalize offer with calling `start` function from subscription contract.
+After that author can accept or decline offer.
+Note, that lockd  **does not** store in the contract itself and this variable possible should be calculated somewhere else at **backend**
+
+	MoonShard server should recive state updates about subscription through events from this contract.
 
 
 	`SubFactory` deploy new subscription contracts, receiving addresses of token,chat owner and crowdsale address (for return).
@@ -122,7 +125,7 @@ Universale formula for setting up a advertisment price is:
 	when n = price in USD for commersials
 	r = exchange rate between MoonShard token (equal to USD)
 	decimals = decimals of user (chat) token.
-	I think we really need to set up one standard decimal for all user tokens(18)
+
 
 
 ***
@@ -138,6 +141,7 @@ Development with truffle
 
 ***
 ## How to interact with contracts on example
+**This part out of date**
 
 1. ``` truffle console ```
 2. ``` migrate --reset ```
