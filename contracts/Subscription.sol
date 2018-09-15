@@ -22,12 +22,62 @@ import "zeppelin-solidity/contracts/ownership/Ownable.sol";
 
 contract Subscription is Ownable {
 
+  // Token stuff
   Token token;
   mapping (address => uint) public users;
   address crowdsale;
   uint public ad_price; // price for commercials
   uint8 public decimals;
   uint public mainUnit;
+
+  // Deal staff
+  struct DealInfo {
+      uint LockId;
+      address buyer;
+      uint lockedFunds;
+    //  uint frozenFunds;
+    //  uint64 frozenTime;
+    //  bool buyerNo;
+    //  bool sellerNo;
+    uint16 public status;
+  }
+  // Enum events EventTypes (raw)
+  uint16 constant internal Start = 1;
+  uint16 constant internal Accept = 2;
+  uint16 constant internal Reject = 3;
+  uint16 constant internal Done = 5;
+  uint16 constant internal Cancel = 4;
+  uint16 constant internal Description = 10;
+  uint16 constant internal Unlock = 11;
+  uint16 constant internal Freeze = 12;
+  uint16 constant internal Resolved = 13;
+
+  mapping (uint => DealInfo) public Deals;
+
+  //enum DealStatus
+  uint16 constant internal Open = 0;
+  uint16 constant internal Accepted = 1;
+  uint16 constant internal Rejected = 2;
+
+  // изолятор ячейки
+  bool private atomicLock;
+
+  // EVENTS-------------DEBUG ----------------------------------------------------------------
+
+    //event counters
+    uint public contentCount = 0;
+    uint public logsCount = 0;
+
+    event LogDebug(string message);
+    //TODO -clean version after job done.
+  //  event LogEvent(uint indexed lockId, string dataInfo, uint indexed version, uint16 eventType, address indexed sender, uint payment);
+
+//----------------------------------------------------------------------------------------
+  // array of sponsors.
+  mapping (address => bool) public sponsors;
+
+
+
 
   event signedUp(address who);
   event signedOut(address who);
@@ -105,12 +155,54 @@ contract Subscription is Ownable {
   Also you could find some primitives here:
   https://github.com/JackBekket/escrow-eth
 
-
+  I will use simplifyc escrow mechanisc because I want to implement escrow
+  mechanins to the Moon Shard in the future
 
 
 
 */
 
+//Start deal with escrow
+function start(uint _lockId, string _dataInfo, uint _version) payable {
+
+    //reject money transfers for bad status
+
+    if(status != Available) throw;
+
+    if(feePromille > 1000) throw;
+    if(rewardPromille > 1000) throw;
+    if((feePromille + rewardPromille) > 1000) throw;
+
+    //create default EscrowInfo struct or access existing
+    EscrowInfo info = escrows[_lockId];
+
+    //lock only once for a given id
+    if(info.lockedFunds > 0) throw;
+
+    //lock funds
+
+    uint fee = (msg.value * feePromille) / 1000;
+    //limit fees
+    if(fee > msg.value) throw;
+
+    uint funds = (msg.value - fee);
+    feeFunds += fee;
+    totalEscrows += 1;
+
+    // buyer init escrow deal.
+    info.buyer = msg.sender;
+    info.lockedFunds = funds;
+    info.frozenFunds = 0;
+    info.buyerNo = false;
+    info.sellerNo = false;
+
+
+  //  pendingCount += _count;
+    buyers[msg.sender] = true;
+
+    //Start order to event log
+    LogEvent(_lockId, _dataInfo, _version, Start, msg.sender, msg.value);
+}
 
 
 }
