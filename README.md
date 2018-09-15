@@ -1,5 +1,5 @@
 
-#**Token Factory**
+#Token Factory
 =====================
 
 MoonShard - is a blog platform, which use model __token-as-a-subscription__
