@@ -26,7 +26,7 @@ contract Subscription is Ownable {
   Token token;
   mapping (address => uint) public users;
   address crowdsale;
-  uint public ad_price; // price for commercials
+
   uint8 public decimals;
   uint public mainUnit;
 
@@ -35,11 +35,7 @@ contract Subscription is Ownable {
       uint LockId;
       address buyer;
       uint lockedFunds;
-    //  uint frozenFunds;
-    //  uint64 frozenTime;
-    //  bool buyerNo;
-    //  bool sellerNo;
-    uint16 status;
+      uint16 status;
   }
 
 
@@ -50,8 +46,7 @@ contract Subscription is Ownable {
   uint16 constant internal Accepted = 1;
   uint16 constant internal Rejected = 2;
 
-  // изолятор ячейки
-  bool private atomicLock;
+
 
   // EVENTS-------------DEBUG ----------------------------------------------------------------
 
@@ -73,7 +68,7 @@ contract Subscription is Ownable {
   event signedUp(address who);
   event signedOut(address who);
   event banned(address who);
-  event adPaid(address who, bytes hashmsg);
+
 
   constructor(address _token, address _owner, address _crowdsale) public {
 
@@ -122,22 +117,7 @@ contract Subscription is Ownable {
 
   }
 
-  // Set up price for commercials
-  // Price should be setted in TOKEN format, i.g. token per show
-  function setAdPrice(uint _price) public onlyOwner returns(uint) {
-    ad_price = _price;
-    return ad_price;
 
-  }
-
-  //buing commercials basic appendix
-  function buyAd(bytes _hash) public {
-    require(ad_price>0);
-    // запрашиваем перевод токенов владельцу
-    require(token.transferFrom(msg.sender,owner,ad_price));
-    // emit event that sender has paid for the ad with given hash
-    emit adPaid(msg.sender,_hash);
-  }
 
 /*
 
@@ -170,7 +150,7 @@ function start(uint _lockId, uint _value) public {
 
     //lock funds
     // This part will transfer from sponsor address token value
-    token.transferFrom(msg.sender,this,_value);
+    require(token.transferFrom(msg.sender,this,_value));
 
 
     // buyer init escrow deal.
@@ -178,8 +158,6 @@ function start(uint _lockId, uint _value) public {
     info.lockedFunds = _value;
     // 0 = Open
     info.status = 0;
-
-
   //  pendingCount += _count;
     sponsors[msg.sender] = true;
 
@@ -197,12 +175,14 @@ function accept(uint _lockId) public onlyOwner
   info.status = 1;
   uint _value = info.lockedFunds;
   deals[_lockId] = info;
-  token.transfer(owner,_value);
+  require(token.transfer(owner,_value));
 
-
+  //Accept order eventType
+  emit LogEvent(_lockId, Accepted, msg.sender, _value);
 
 }
 
+// Reject deal
 function reject(uint _lockId) public onlyOwner
 {
   DealInfo memory info = deals[_lockId];
@@ -210,7 +190,8 @@ function reject(uint _lockId) public onlyOwner
   uint _value = info.lockedFunds;
   address _to = info.buyer;
   deals[_lockId] = info;
-  token.transfer(_to,_value);
+  require(token.transfer(_to,_value));
+  emit LogEvent(_lockId, Accepted, msg.sender, _value);
 
 }
 
