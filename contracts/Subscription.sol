@@ -39,7 +39,7 @@ contract Subscription is Ownable {
     //  uint64 frozenTime;
     //  bool buyerNo;
     //  bool sellerNo;
-    uint16 public status;
+    uint16 status;
   }
   // Enum events EventTypes (raw)
   uint16 constant internal Start = 1;
@@ -69,8 +69,8 @@ contract Subscription is Ownable {
     uint public logsCount = 0;
 
     event LogDebug(string message);
-    //TODO -clean version after job done.
-  //  event LogEvent(uint indexed lockId, string dataInfo, uint indexed version, uint16 eventType, address indexed sender, uint payment);
+
+    event LogEvent(uint indexed lockId, uint16 eventType, address indexed sponsor, uint payment);
 
 //----------------------------------------------------------------------------------------
   // array of sponsors.
@@ -163,45 +163,35 @@ contract Subscription is Ownable {
 */
 
 //Start deal with escrow
-function start(uint _lockId, string _dataInfo, uint _version) payable {
+function start(uint _lockId, uint _value)  {
 
     //reject money transfers for bad status
 
-    if(status != Available) throw;
-
-    if(feePromille > 1000) throw;
-    if(rewardPromille > 1000) throw;
-    if((feePromille + rewardPromille) > 1000) throw;
 
     //create default EscrowInfo struct or access existing
-    EscrowInfo info = escrows[_lockId];
+    DealInfo info = deals[_lockId];
 
     //lock only once for a given id
+    // This is a serious part, do NOT remove it
     if(info.lockedFunds > 0) throw;
 
     //lock funds
+    // This part will transfer from sponsor address token value
+    token.tranferFrom(msg.sender,this,_value);
 
-    uint fee = (msg.value * feePromille) / 1000;
-    //limit fees
-    if(fee > msg.value) throw;
-
-    uint funds = (msg.value - fee);
-    feeFunds += fee;
-    totalEscrows += 1;
 
     // buyer init escrow deal.
     info.buyer = msg.sender;
-    info.lockedFunds = funds;
-    info.frozenFunds = 0;
-    info.buyerNo = false;
-    info.sellerNo = false;
+    info.lockedFunds = _value;
+    // 0 = Open
+    info.status = 0;
 
 
   //  pendingCount += _count;
-    buyers[msg.sender] = true;
+    sponsors[msg.sender] = true;
 
     //Start order to event log
-    LogEvent(_lockId, _dataInfo, _version, Start, msg.sender, msg.value);
+    LogEvent(_lockId, Open, msg.sender, msg.value);
 }
 
 
