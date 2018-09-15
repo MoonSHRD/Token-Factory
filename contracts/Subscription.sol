@@ -52,7 +52,7 @@ contract Subscription is Ownable {
   uint16 constant internal Freeze = 12;
   uint16 constant internal Resolved = 13;
 
-  mapping (uint => DealInfo) public Deals;
+  mapping (uint => DealInfo) public deals;
 
   //enum DealStatus
   uint16 constant internal Open = 0;
@@ -163,21 +163,23 @@ contract Subscription is Ownable {
 */
 
 //Start deal with escrow
-function start(uint _lockId, uint _value)  {
+function start(uint _lockId, uint _value) public {
 
     //reject money transfers for bad status
 
 
-    //create default EscrowInfo struct or access existing
-    DealInfo info = deals[_lockId];
+    //create default DealInfo struct or access existing
+    // note, that here we are initializing info object first time
+    // therefore this start function can await a lot of Gas
+    DealInfo storage info = deals[_lockId];
 
     //lock only once for a given id
     // This is a serious part, do NOT remove it
-    if(info.lockedFunds > 0) throw;
+    if(info.lockedFunds > 0) revert();
 
     //lock funds
     // This part will transfer from sponsor address token value
-    token.tranferFrom(msg.sender,this,_value);
+    token.transferFrom(msg.sender,this,_value);
 
 
     // buyer init escrow deal.
@@ -191,7 +193,7 @@ function start(uint _lockId, uint _value)  {
     sponsors[msg.sender] = true;
 
     //Start order to event log
-    LogEvent(_lockId, Open, msg.sender, msg.value);
+    emit LogEvent(_lockId, Open, msg.sender, _value);
 }
 
 
