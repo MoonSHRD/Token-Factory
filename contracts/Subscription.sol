@@ -169,9 +169,9 @@ function start(uint _lockId, uint _value) public {
 
 
     //create default DealInfo struct or access existing
-    // note, that here we are initializing info object first time
-    // therefore this start function can await a lot of Gas
-    DealInfo storage info = deals[_lockId];
+    // it MAY BE  a pitfall, cause I'm not sure are we saving deals right way?
+    // but obviously info exist only inside a function, doesn't it?
+    DealInfo memory info = deals[_lockId];
 
     //lock only once for a given id
     // This is a serious part, do NOT remove it
@@ -192,8 +192,22 @@ function start(uint _lockId, uint _value) public {
   //  pendingCount += _count;
     sponsors[msg.sender] = true;
 
+    // Save details
+     deals[_lockId] = info;
+
     //Start order to event log
     emit LogEvent(_lockId, Open, msg.sender, _value);
+}
+
+// Accept deal
+function accept(uint _lockId) public onlyOwner
+{
+  DealInfo memory info = deals[_lockId];
+  info.status = 1;
+  deals[_lockId] = info;
+
+
+
 }
 
 
