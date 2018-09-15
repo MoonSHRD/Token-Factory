@@ -98,4 +98,19 @@ contract Subscription is Ownable {
     emit adPaid(msg.sender,_hash);
   }
 
+/*
+
+        DEAL MECHANISM
+  Deal mechanics originally designed for SONM marketplace.
+  Also you could find some primitives here:
+  https://github.com/JackBekket/escrow-eth
+
+
+
+
+
+*/
+
+
+
 }
