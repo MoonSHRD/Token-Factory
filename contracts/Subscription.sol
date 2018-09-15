@@ -41,20 +41,11 @@ contract Subscription is Ownable {
     //  bool sellerNo;
     uint16 status;
   }
-  // Enum events EventTypes (raw)
-  uint16 constant internal Start = 1;
-  uint16 constant internal Accept = 2;
-  uint16 constant internal Reject = 3;
-  uint16 constant internal Done = 5;
-  uint16 constant internal Cancel = 4;
-  uint16 constant internal Description = 10;
-  uint16 constant internal Unlock = 11;
-  uint16 constant internal Freeze = 12;
-  uint16 constant internal Resolved = 13;
+
 
   mapping (uint => DealInfo) public deals;
 
-  //enum DealStatus
+  //enum types for DealStatus
   uint16 constant internal Open = 0;
   uint16 constant internal Accepted = 1;
   uint16 constant internal Rejected = 2;
@@ -204,11 +195,23 @@ function accept(uint _lockId) public onlyOwner
 {
   DealInfo memory info = deals[_lockId];
   info.status = 1;
+  uint _value = info.lockedFunds;
   deals[_lockId] = info;
+  token.transfer(owner,_value);
 
 
 
 }
 
+function reject(uint _lockId) public onlyOwner
+{
+  DealInfo memory info = deals[_lockId];
+  info.status = 2;
+  uint _value = info.lockedFunds;
+  address _to = info.buyer;
+  deals[_lockId] = info;
+  token.transfer(_to,_value);
+
+}
 
 }
