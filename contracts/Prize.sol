@@ -1,7 +1,14 @@
 pragma solidity ^0.4.24;
 
 /*
-    template for crowdsale ovveride
+    This is contract **Кубышка**, which works like a standart кубышка.
+
+    Author can deploy this contract if he want to distribute prizes.
+    givePrize will add money to this contract
+    getPrize will calculate share and give money to the subscriber, and author
+    will get his tokens back.
+
+    So it's can be used in cashback or buyback mechanics
 
 */
 
