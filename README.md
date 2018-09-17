@@ -1,5 +1,5 @@
 
-#Token Factory
+Token Factory
 =====================
 
 MoonShard - is a blog platform, which use model __token-as-a-subscription__
@@ -44,31 +44,76 @@ Antispam contract is too raw to deploy
 
 Has not been tested properly yet.
 
+## Deal Diaolog
+
+
+What is the deal dialog?
+The Deal Diaolog is a standart functional for making a deal in MoonShard platform.
+On this stage we will use it for standartization of **sponsorship offer**
+
+In the future would be possible to make any kind of deals with any user and escrow functional, but let's start from small parts.
+
+## Deal Dialog scenario (and pitfalls)
+
+![](https://github.com/MoonSHRD/Token-Factory/blob/feat/readme/images/dealdialog.jpg)
+
+Let's imagine, that we have standard window with channel info, and we have a button there "offer a deal" or  "offer a sponsorship"
+When we click that button we should see apearing of **Deal Dialog** window and chat with author should be start here.
+
+In this chat sides can discuss details of the deal. On the left side of a window we should see buttons 'finalize offer' and 'cancel'. When cancel is clicked - chat should be removed.
+If offering side decide to finalize deal, he should input offer details in the fields and push 'finalize offer' button
+
+When 'finalize offer' button is pressed, next steps should be procceeds:
+
+1.  Invoke `approve` function with approval that user want to transfer money on the subscription contract
+For **any** approval function inside of the app, user should recive standard approve diaolog window with somethink like "approve that you is you" or something like that.
+I should note here, that user input price in the USD and we should convert it to tokens value, using price variable on __crowdsale__ contract.
+Also, I should mention, that approve must chek if user have enough money to send, and if he doesn't, then we could offer him another window like "You have not enough funds, do you want to buy X tokens for procceed purchase?"
+If he clicked 'yes' then we buy more tokens from crowdsale to have enough money.
+
+2.   If approve chek has been succeful, invoke `start` function from `subscription` contract. This function will require `lockid` - UID of the deal (__counter__). Lockid should be store and procceed by **backend**, it is not store in the contract.
+Start creates structure of the deal, pull out approved funds to the subscription contract, write down details of the deal and make deal status = 0 (open). After that we should increase lockid counter on backend side.
+
+3.  Author should have notification window where he store all open deals. Deals represent like bloks in the list. In each block we have simple info like "from" and "value" and three options - accept, reject, chat.  By clicking on chat we procceed to DealDialog window of this deal.
+If accept was pushed - invoke `accept` function, then subscription contract will close deal, transfer funds to the authorship wallet and emit event.
+If reject was pushed - invoke `reject` function, then subscription contract will close deal, transfer funds back to the sponsor and emit event.
+Backend should recive and store all lockid's of all closed deals
+
+4.  Possible glithes:
+There are no safemath protection against **stackoverflow** in `lockid` variable in deals array.
+This far solution is to store lockid on backend side and, in possability of approaching stackoverflow, we should start overwrite closed (but not opened!) deals.
+Since all closed deals are already stored in events, then we have not neccesarity of storing them as a structure, therefore we could rewrite them.
+
+
+
+
+
+
 
 
 ## Rates, crowdsale prices and how can I live rest of my life about it?
 
 
-	As you can see, function awaits parameters 'decimals' and 'rate' to understand the price
-	of token user want to set up.
+As you can see, function awaits parameters 'decimals' and 'rate' to understand the price
+of token user want to set up.
 
-	The lowest undividable unit in token should be setup by the 'decimals' parameter.
-	For example, if we want lowest unit as 0,001, then we should set up the decimals in value 3.
+The lowest undividable unit in token should be setup by the 'decimals' parameter.
+For example, if we want lowest unit as 0,001, then we should set up the decimals in value 3.
 
-	Ethereum itself has the lowest unit called `Wei` and has decimals value 18, so if
-	we suggest that 1 moonshard is 1$, and we creating new token with decimals 18 and rate =1, then
-	price for 1 NewToken = 1$.
+Ethereum itself has the lowest unit called `Wei` and has decimals value 18, so if
+we suggest that 1 moonshard is 1$, and we creating new token with decimals 18 and rate =1, then
+price for 1 NewToken = 1$.
 
-	If we will move decimals forward or backward we can get 1 NewToken = 10$ when decimals = 19 and
-	1 NewToken = 0,1$ when decimals = 17, therefore we can change price of token moving floating point like that.
+If we will move decimals forward or backward we can get 1 NewToken = 10$ when decimals = 19 and
+ NewToken = 0,1$ when decimals = 17, therefore we can change price of token moving floating point like that.
 
-	Other parameter for price is _rate_ . This mean conversion rate, or how many tokens buyer getting per
-	one payable unit.
+Other parameter for price is _rate_ . This mean conversion rate, or how many tokens buyer getting per
+one payable unit.
 
-	For example when d=18 and r=1 buyer get 1 token per 1$. If rate is 2, than 2 token per 1$. In second case price of the token will be 0,5$ and so on
+For example when d=18 and r=1 buyer get 1 token per 1$. If rate is 2, than 2 token per 1$. In second case price of the token will be 0,5$ and so on
 
 
-	Probably we should to implement some mechanism of dynamic price calculation on client side. (for autocalculation decimals and rate for given user price)
+Probably we should to implement some mechanism of dynamic price calculation on client side. (for autocalculation decimals and rate for given user price)
 
 ## Dynamic price (USD) and Decimals calculation on Frontend side
 There is a method to dynamicly calculate `rate` and `decimals` by USD price on frontend side
