@@ -55,7 +55,6 @@ In the future would be possible to make any kind of deals with any user and escr
 
 ## Deal Dialog scenario (and pitfalls)
 
-![](https://github.com/MoonSHRD/Token-Factory/blob/master/images/dealdialog.jpg)
 
 Let's imagine, that we have standard window with channel info, and we have a button there "offer a deal" or  "offer a sponsorship"
 When we click that button we should see apearing of **Deal Dialog** window and chat with author should be start here.
@@ -171,7 +170,15 @@ Universale formula for setting up a advertisment price is:
 	r = exchange rate between MoonShard token (equal to USD)
 	decimals = decimals of user (chat) token.
 
+## Subscription BOUNTY
+Any subscriber can get money reward from sponsor/author
 
+`getPrize` from `Prize.sol` will get money reward to user in exchange of his chat tokens.
+
+So now, your users can be motivated to be impactivly in your channel in exchange to tokens because
+your tokens can be exchanged for a real money.
+
+It's also can be used in any cashback or bayback and also some game mechanics.
 
 ***
 Development with truffle
