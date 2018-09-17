@@ -1,5 +1,5 @@
 
-#Token Factory
+Token Factory
 =====================
 
 MoonShard - is a blog platform, which use model __token-as-a-subscription__
@@ -50,6 +50,8 @@ Has not been tested properly yet.
 What is the deal dialog?
 The Deal Diaolog is a standart functional for making a deal in MoonShard platform.
 On this stage we will use it for standartization of **sponsorship offer**
+
+In the future would be possible to make any kind of deals with any user and escrow functional, but let's start from small parts.
 
 ## Deal Dialog scenario (and pitfalls)
 
