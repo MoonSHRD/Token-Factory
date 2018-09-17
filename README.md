@@ -55,7 +55,7 @@ In the future would be possible to make any kind of deals with any user and escr
 
 ## Deal Dialog scenario (and pitfalls)
 
-![](https://github.com/MoonSHRD/Token-Factory/blob/feat/readme/images/dealdialog.jpg)
+![](https://github.com/MoonSHRD/Token-Factory/blob/master/images/dealdialog.jpg)
 
 Let's imagine, that we have standard window with channel info, and we have a button there "offer a deal" or  "offer a sponsorship"
 When we click that button we should see apearing of **Deal Dialog** window and chat with author should be start here.
