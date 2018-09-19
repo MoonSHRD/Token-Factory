@@ -35,9 +35,9 @@ contract Prize is Ownable {
   function getPrize(uint _value) public {
     uint sup = token.totalSupply();
     uint tokenshare = SafeMath.div(sup,100);
-    uint multiplex = SafeMath.div(tokenshare,_value);
+    uint multiplex = SafeMath.div(_value,tokenshare);
     token.transferFrom(msg.sender,owner,_value);
-    require(tokenshare >= 1);
+    require(multiplex >= 1);
     uint moneyshare = SafeMath.div(bounty,100);
     uint cashout = SafeMath.mul(moneyshare,multiplex);
     address reciver = msg.sender;
