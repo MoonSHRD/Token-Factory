@@ -2,16 +2,18 @@ pragma solidity ^0.4.24;
 
 
 import "./Token.sol";
-import "zeppelin-solidity/contracts/crowdsale/Crowdsale.sol";
+import "./Tokensale.sol";
 
 
 contract TokenFactory {
+
+
     address god;
     mapping (address => address[]) public tokens;
     
     event TokenCreated(address _owner, address _token);
 
-    // define zheton as Token contract. There is might be a pitfall, cause crowdsale await ERC20
+    // define zheton as Token contract. There is might be a pitfall, cause tokensale await ERC20
   //  Token public zheton;
 
     constructor() public {
@@ -34,31 +36,31 @@ contract TokenFactory {
 
 
 
-// Function that create Token, crowdsale contract and start it at once
+// Function that create Token, tokensale contract and start it at once
 // Note that it can be burn a lot of gas, so I think we need to split this function in the future
-     function createCrowdsaleToken(string _name,
+     function createTokensaleToken(string _name,
      string _symbol, uint8 _decimals,
      uint _INITIAL_SUPPLY, uint256 _rate, address _wallet) public returns(Token,address){
        Token tok = createToken(_name,_symbol,_decimals,_INITIAL_SUPPLY);
     //   Token tok = Token(new Token(_name, _symbol, _INITIAL_SUPPLY, msg.sender));
-       address crd = createCrowdsale(_rate,_wallet,tok);
+       address crd = createTokensale(_rate,_wallet,tok);
        tok.prepareCrowdsale(crd);
        return (tok,crd);
 
 
    }
 
-// Function that creates crowdsale with given parameters
-    function createCrowdsale(uint256 _rate, address _wallet, Token _token) public returns(address) {
-      address crowdsale = 0x0;
-      crowdsale = address(new Crowdsale(_rate,_wallet,_token));
-      return crowdsale;
+// Function that creates tokensale with given parameters
+    function createTokensale(uint256 _rate, address _wallet, Token _token) public returns(address) {
+      address tokensale = 0x0;
+      tokensale = address(new Tokensale(_rate,_wallet,_token));
+      return tokensale;
 
 
     }
 
 
-// function that create Simple Token without crowdsale
+// function that create Simple Token without tokensale
 // Returns Token object with new address
     function createToken(string _name,
     string _symbol,

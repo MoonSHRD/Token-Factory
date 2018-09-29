@@ -15,7 +15,7 @@ This version is work with 'ether', not tokens.
 pragma solidity ^0.4.24;
 
 
-import "zeppelin-solidity/contracts/ownership/Ownable.sol";
+import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
 contract Antispam is Ownable {
 

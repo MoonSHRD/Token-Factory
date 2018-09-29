@@ -18,7 +18,7 @@
 pragma solidity ^0.4.24;
 
 import "./Token.sol";
-import "zeppelin-solidity/contracts/ownership/Ownable.sol";
+import "openzeppelin-solidity/contracts/ownership/Ownable.sol";
 
 contract Subscription is Ownable {
 
