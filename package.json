@@ -5,7 +5,8 @@
   "scripts": {
     "lint": "eslint ./",
     "build": "webpack",
-    "dev": "webpack-dev-server"
+    "dev": "webpack-dev-server",
+    "test": "truffle test"
   },
   "author": "Douglas von Kohorn",
   "license": "MIT",
@@ -29,17 +30,20 @@
     "html-webpack-plugin": "^2.28.0",
     "json-loader": "^0.5.4",
     "style-loader": "^0.13.1",
-    "truffle-contract": "^1.1.11",
-    "web3": "^0.20.0",
+    "web3": "^0.20.7",
     "webpack": "^2.2.1",
-    "webpack-dev-server": "^2.3.0"
+    "webpack-dev-server": "^2.11.3"
   },
   "main": "truffle.js",
   "directories": {
     "test": "test"
   },
   "dependencies": {
-    "zeppelin-solidity": "1.10.0"
+    "truffle-core": "^4.1.*",
+    "loom-truffle-provider": "^0.7.*",
+    "openzeppelin-solidity": "^1.*.*",
+    "babel-polyfill": "^6.26.*",
+    "babel-register": "^6.26.*"
   },
   "keywords": []
 }

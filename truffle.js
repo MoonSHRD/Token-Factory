@@ -1,13 +1,24 @@
-// Allows us to use ES6 in our migrations and tests.
-require('babel-register')
+
+const LoomTruffleProvider = require('loom-truffle-provider');
+require('babel-register');
+require('babel-polyfill');
+
+
+const loom = new LoomTruffleProvider('default', "http://127.0.0.1:46658/rpc", "http://127.0.0.1:46658/query", "quMK1GiagMhnRtTbR4uXZYGgMRf2c2lVVtYK+00//P0I6lBi8MzZJ1Le2HdtbsZGgsynki7m7lSwdkc9/d4JNg==")
+loom.createExtraAccounts(2);
 
 module.exports = {
+
   networks: {
-    development: {
-      host: '127.0.0.1',
-      port: 7545,
-    //  from: "0xF649E047109E9e422E75c9C764e9885BE3e56410",
-      network_id: '*' // Match any network id
-    }
-  }
-}
+    test: {
+      provider: loom,
+      network_id: '*'
+    },
+  },
+
+  mocha: {
+    useColors: true,
+    reporter: 'spec',
+
+  },
+};

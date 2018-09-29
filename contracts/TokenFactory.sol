@@ -8,6 +8,9 @@ import "zeppelin-solidity/contracts/crowdsale/Crowdsale.sol";
 contract TokenFactory {
     address god;
     mapping (address => address[]) public tokens;
+    
+    event TokenCreated(address _owner, address _token);
+
     // define zheton as Token contract. There is might be a pitfall, cause crowdsale await ERC20
   //  Token public zheton;
 
@@ -20,7 +23,7 @@ contract TokenFactory {
         _;
     }
 
-    event TokenCreated(address owner, address token);
+
 
     function changeAdresses(address _god) public onlyGod {
         god = _god;
@@ -62,10 +65,11 @@ contract TokenFactory {
     uint8 _decimals,
     uint _INITIAL_SUPPLY) public returns(Token) {
   //  address token = 0x0;
-      Token token = Token(new Token(_name, _symbol, _decimals, _INITIAL_SUPPLY, msg.sender));
+      Token token = new Token(_name, _symbol, _decimals, _INITIAL_SUPPLY, msg.sender);
 
         tokens[msg.sender].push(token);
-        emit TokenCreated(msg.sender, token);
+        emit TokenCreated(msg.sender, address(token));
+       
        return token;
 
     }
