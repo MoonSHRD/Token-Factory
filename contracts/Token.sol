@@ -31,7 +31,7 @@ contract Token is StandardToken, Ownable {
     }
 
     modifier onlyFactory(){
-        require(msg.sender != Factory);
+        require(msg.sender == Factory);
         _;
     }
 

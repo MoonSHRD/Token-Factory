@@ -3,9 +3,11 @@ const Token = artifacts.require('Token')
 
 contract('TokenFactory', async (accounts) => {
     let account_one = accounts[0];
+    let account_two = accounts[1];
 
     let NullAddr = "0x0000000000000000000000000000000000000000"
     let Supply = 10000 * 10 ** 18;
+    let Decimals =3;
     let Name = "TestCoin";
     let Label = "TST";
 
@@ -21,6 +23,31 @@ contract('TokenFactory', async (accounts) => {
 
 
     });
+
+
+
+
+
+    it("Should Create Tokensale", async () => {
+        let instance = await TokenFactory.deployed();
+        let rate  =1;
+        let wallet = account_one
+
+        // string _name,
+        //     string _symbol, uint8 _decimals,
+        //     uint _INITIAL_SUPPLY, uint256 _rate, address _wallet
+        // let tokenTx = await instance.createToken(Name, Label, 18, Supply, {from: account_one})
+
+        let  tokenTx =  await instance.createTokensaleToken(Name,Label,Decimals,Supply,rate,wallet,{from:account_one});
+
+        const logs = tokenTx.logs;
+
+        assert.ok(logs[0].event == "TokenCreated");
+        assert.ok(logs[1].event == "TokensaleCreated");
+
+    });
+
+
 });
 
 
