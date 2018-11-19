@@ -51,9 +51,6 @@ contract TokenFactory {
 // Function that creates tokensale with given parameters
     function createTokensale(uint256 _rate, address _wallet, Token _token) public returns(address) {
         address tokensale = address(new Tokensale(_rate,_wallet,_token));
-        for (uint i=0; i<observers.length; i++) {
-         observers[i].onTokenSaleCreated(tokensale, _wallet);
-        }
 
         return tokensale;
     }
@@ -75,8 +72,11 @@ contract TokenFactory {
 
     }
 
-//@deprecated use ITokenObserver
+    function hasTokens(address _owner) view public returns (bool){
+        return tokens[_owner].length >0;
+    }
+
     function getTokens(address _owner) view public returns(address[]) {
-        return tokens[_owner];
+            return tokens[_owner];
     }
 }

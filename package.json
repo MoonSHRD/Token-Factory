@@ -6,7 +6,8 @@
     "lint": "eslint ./",
     "build": "webpack",
     "dev": "webpack-dev-server",
-    "test": "truffle test"
+    "test": "truffle test",
+    "decode": "node ./node_modules/decode-eth/main.js"
   },
   "author": "Douglas von Kohorn",
   "license": "MIT",
@@ -19,8 +20,9 @@
     "babel-preset-env": "^1.1.8",
     "babel-preset-es2015": "^6.22.0",
     "babel-register": "^6.22.0",
-    "copy-webpack-plugin": "^4.0.1",
+    "copy-webpack-plugin": "^4.6.0",
     "css-loader": "^0.26.1",
+    "decode-eth": "^0.1.2",
     "eslint": "^3.14.0",
     "eslint-config-standard": "^6.0.0",
     "eslint-plugin-babel": "^4.0.0",
@@ -33,7 +35,10 @@
     "style-loader": "^0.13.1",
     "web3": "^0.20.7",
     "webpack": "^2.2.1",
-    "webpack-dev-server": "^2.11.3"
+    "webpack-dev-server": "^2.11.3",
+    "mocha-multi-reporters":"^1.1.7",
+
+
   },
   "main": "truffle.js",
   "directories": {
@@ -42,9 +47,10 @@
   "dependencies": {
     "babel-polyfill": "^6.26.*",
     "babel-register": "^6.26.*",
-    "loom-truffle-provider": "^0.7.*",
+    "truffle-hdwallet-provider-privkey": "^0.3.0",
     "openzeppelin-solidity": "^1.12.0",
     "truffle-core": "^4.1.*"
+
   },
   "keywords": []
 }

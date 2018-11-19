@@ -1,24 +1,47 @@
+const {readFileSync} = require('fs')
+require('babel-register')
+require('babel-polyfill')
+var PrivateKeyProvider = require("truffle-hdwallet-provider-privkey");
 
-const LoomTruffleProvider = require('loom-truffle-provider');
-require('babel-register');
-require('babel-polyfill');
-
-
-const loom = new LoomTruffleProvider('default', "http://127.0.0.1:46658/rpc", "http://127.0.0.1:46658/query", "quMK1GiagMhnRtTbR4uXZYGgMRf2c2lVVtYK+00//P0I6lBi8MzZJ1Le2HdtbsZGgsynki7m7lSwdkc9/d4JNg==")
-loom.createExtraAccounts(2);
 
 module.exports = {
-
-  networks: {
-    test: {
-      provider: loom,
-      network_id: '*'
+    solc: {
+        optimizer: {
+            enabled: true,
+            runs: 200
+        }
     },
-  },
+    networks: {
+        test: {
+            port: 8545,
+            network_id: "8995",
+            host: "localhost"
+        },
+        poa_local: {
+            host: "192.168.1.21",
+            port: 8545,
+            network_id: "8995",
+            provider: () => {
+                return new PrivateKeyProvider(["4B840E1D567A493B9B21308D2C85616C56CD664C97520B041F539EC5F35F62AA"], "http://192.168.1.21:8545")
+            },
+            gasPrice: 0,
+        },
 
-  mocha: {
-    useColors: true,
-    reporter: 'spec',
 
-  },
+        poa_testnet: {
+            host: "status.moonshrd.io",
+            port: 8545,
+            network_id: "8995",
+            provider: () => {
+                return new PrivateKeyProvider(["4B840E1D567A493B9B21308D2C85616C56CD664C97520B041F539EC5F35F62AA"], "http://status.moonshrd.io:8545")
+            },
+            gasPrice: 0,
+        }
+
+
+    },
+
+    mocha: {
+        useColors: true
+    },
 };

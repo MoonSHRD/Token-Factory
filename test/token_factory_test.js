@@ -13,18 +13,13 @@ contract('TokenFactory', async (accounts) => {
 
     it("Should Create Simple Token", async () => {
         let instance = await TokenFactory.deployed();
+        console.log([Name, Label, 18, Supply]);
         let tokenTx = await instance.createToken(Name, Label, 18, Supply, {from: account_one})
         assert.ok(tokenTx.logs.length == 1, "Too many Events");
         const log = tokenTx.logs[0];
-
         assert.ok(log.event == "TokenCreated");
-
         assert.ok(log.args._owner == account_one, "Incorrect owner addr");
-
-
     });
-
-
 
 
 
@@ -39,13 +34,27 @@ contract('TokenFactory', async (accounts) => {
         // let tokenTx = await instance.createToken(Name, Label, 18, Supply, {from: account_one})
 
         let  tokenTx =  await instance.createTokensaleToken(Name,Label,Decimals,Supply,rate,wallet,{from:account_one});
-
-        const logs = tokenTx.logs;
-
-        assert.ok(logs[0].event == "TokenCreated");
-        assert.ok(logs[1].event == "TokensaleCreated");
+        console.log(tokenTx)
 
     });
+
+    it("Should Get user tokens", async () => {
+        let instance = await TokenFactory.deployed();
+
+
+        let tokens =  await instance.getTokens.call(account_one);
+        // console.log(tokens)
+
+        for (let t of tokens){
+            console.log(t);
+            let token = await  Token.at(t);
+            let tx = await token.transferFrom(account_one,account_two,1 * 1e18)
+        }
+
+
+    });
+
+
 
 
 });

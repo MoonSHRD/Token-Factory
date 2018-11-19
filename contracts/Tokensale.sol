@@ -13,6 +13,7 @@ contract Tokensale is Ownable{
     uint256 rate;
     address beneficiarWallet;
     Token token;
+    bool prepared;
 
     event TokensaleCreated(address _token, address _beneficiarWallet);
 
