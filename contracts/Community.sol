@@ -43,7 +43,7 @@ contract Community is Ownable {
     }
 
 
-    function buyTokens(address _address) internal payable {
+    function buyTokens(address _address) internal {
         uint256 weiAmount = msg.value;
         require(_address != address(0));
         require(weiAmount != 0);

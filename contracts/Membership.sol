@@ -1,7 +1,8 @@
-pragma solidity 0.4.25;
+pragma solidity 0.4.24;
 
 
-contract Deal{};
+
+contract Deal{}
 
 
 //@todo Сделка  Подписка (Членство)

@@ -10,13 +10,13 @@ contract DealAceptor is Ownable {
 
     function work() public onlyOwner {
 
-        if (registry = address(0)) {
+        if (registry == address(0)) {
             registry = new IterableMap();
         }
     }
 
     function suggest(Deal deal) public  {
-        registry.add(deal);
+        registry.add(deal, deal);
     }
 
 
