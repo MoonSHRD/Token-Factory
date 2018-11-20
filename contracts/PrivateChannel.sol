@@ -1,12 +1,14 @@
 pragma solidity ^0.4.24;
 
 import "./Community.sol";
+import "./DealAceptor.sol";
 
-contract PrivateChannel is Community {
+contract PrivateChannel is Community, DealAceptor {
 
 
     function beforeJoin() internal {
-        require(token.balanceOf(msg.sender) > 10 ^ ^ token.decimals - 1)
+
+
     }
 
     function afterJoin() internal {}

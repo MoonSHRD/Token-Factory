@@ -3,7 +3,7 @@ pragma solidity ^0.4.24;
 
 import "./Token.sol";
 import "./Tokensale.sol";
-import "./ITokenObserver.sol";
+import "./Community.sol";
 
 
 contract TokenFactory {
@@ -11,7 +11,7 @@ contract TokenFactory {
 
     address god;
     mapping (address => address[]) public tokens;
-    ITokenObserver[] public observers;
+
 
     event TokenCreated(address _owner, address _token);
 
@@ -30,29 +30,23 @@ contract TokenFactory {
         god = _god;
     }
 
-    function addObserver(address _observer) public onlyGod {
-        observers.push(ITokenObserver(_observer));
-    }
-
-
-
 
 // Function that create Token, tokensale contract and start it at once
 // Note that it can be burn a lot of gas, so I think we need to split this function in the future
-     function createTokensaleToken(string _name,
+     function createCommunityToken(string _name,
      string _symbol, uint8 _decimals,
      uint _INITIAL_SUPPLY, uint256 _rate, address _wallet) public returns(address){
        Token token = createToken(_name,_symbol,_decimals,_INITIAL_SUPPLY);
-       address crd = createTokensale(_rate,_wallet,token);
-       token.prepareCrowdsale(crd);
+       address crd = createCommunity(_rate,_wallet,token);
+       token.prepareCommunity(crd);
          return crd;
    }
 
 // Function that creates tokensale with given parameters
-    function createTokensale(uint256 _rate, address _wallet, Token _token) public returns(address) {
-        address tokensale = address(new Tokensale(_rate,_wallet,_token));
+    function createCommunity(uint256 _rate, address _wallet, Token _token) public returns(address) {
+        address community = address(new Community(_rate,_wallet,_token));
 
-        return tokensale;
+        return community;
     }
 
 

@@ -14,10 +14,10 @@ contract Token is StandardToken, Ownable {
     bool public prepared = false;
 
     constructor(string _name,
-    string _symbol,
-    uint8 _decimals,
-    uint _INITIAL_SUPPLY,
-    address _owner) public {
+        string _symbol,
+        uint8 _decimals,
+        uint _INITIAL_SUPPLY,
+        address _owner) public {
         name = _name;
         symbol = _symbol;
         decimals = _decimals;
@@ -26,7 +26,7 @@ contract Token is StandardToken, Ownable {
         owner = _owner;
         //balances go to the owner normally
         // Keep closed if we want to transfer tokens to the crowdsale
-      //  balances[owner] = totalSupply_;
+        //  balances[owner] = totalSupply_;
 
     }
 
@@ -35,32 +35,35 @@ contract Token is StandardToken, Ownable {
         _;
     }
 
-    function prepareCrowdsale(address _crowdsale) public onlyFactory {
+    function prepareCommunity(address _community) public onlyFactory {
         require(prepared == false);
-        balances[_crowdsale] = totalSupply_;
+        balances[_community] = totalSupply_;
         prepared = true;
 
     }
 
-/*
-    NOTE  BUG found - when you try to implement function below
-    solidity compiler with truffle will CRUSH, killing truffle location map with
-    it. Don't know why is it happening, but obviously it is not expected
-    behavior
 
-    Example of exeption I got:
-    'truffle compile
-Error parsing /home/jack/ethProjects/Token-Factory/contracts/Token.sol: ParsedContract.sol:55:1: ParserError: Function, variable, struct or modifier declaration expected.
-import '__Truffle__NotFound.sol';
-^----^
-'
+    function unit() public view returns (uint256) {
+        return 10 ** decimals;
+    }
+    /*
+        NOTE  BUG found - when you try to implement function below
+        solidity compiler with truffle will CRUSH, killing truffle location map with
+        it. Don't know why is it happening, but obviously it is not expected
+        behavior
+
+        Example of exeption I got:
+        'truffle compile
+    Error parsing /home/jack/ethProjects/Token-Factory/contracts/Token.sol: ParsedContract.sol:55:1: ParserError: Function, variable, struct or modifier declaration expected.
+    import '__Truffle__NotFound.sol';
+    ^----^
+    '
 
 
-   function askDecimals() public returns (uint8){
-   uint8 result = decimals;
-   return result;
-*/
-
+       function askDecimals() public returns (uint8){
+       uint8 result = decimals;
+       return result;
+    */
 
 
 }

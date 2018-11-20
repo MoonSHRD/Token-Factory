@@ -1,0 +1,10 @@
+dist: trusty
+language: node_js
+cache: yarn
+node_js:
+- '10'
+install:
+- bash ./bin/travis-install.sh
+
+script:
+- bash ./bin/test.sh
