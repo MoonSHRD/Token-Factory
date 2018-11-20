@@ -4,7 +4,7 @@ cache: yarn
 node_js:
 - '10'
 install:
-- bash ./bin/travis-install.sh
+- sh $TRAVIS_BUILD/.bin/travis-install.sh
 
 script:
-- bash ./bin/test.sh
+- sh $TRAVIS_BUILD/.bin/test.sh
