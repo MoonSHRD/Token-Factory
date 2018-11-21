@@ -37,15 +37,17 @@ contract TokenFactory {
      string _symbol, uint8 _decimals,
      uint _INITIAL_SUPPLY, uint256 _rate, address _wallet) public returns(address){
        Token token = createToken(_name,_symbol,_decimals,_INITIAL_SUPPLY);
-       address crd = createCommunity(_rate,_wallet,token);
-       token.prepareCommunity(crd);
-         return crd;
+       Community community = new Community(_rate,_wallet);
+       community.setToken(token);
+       address cdr = address(community);  
+       token.prepareCommunity(cdr);
+      // Tokensale tokenSale = new
+         return cdr;
    }
 
 // Function that creates tokensale with given parameters
-    function createCommunity(uint256 _rate, address _wallet, Token _token) public returns(address) {
-        address community = address(new Community(_rate,_wallet,_token));
-
+    function createCommunity(uint256 _rate, address _wallet) public returns(address) {
+        Community community = new Community(_rate,_wallet);
         return community;
     }
 

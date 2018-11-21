@@ -23,23 +23,32 @@ contract('TokenFactory', async (accounts) => {
 
 
 
-    it("Should Create Tokensale", async () => {
+    it("Should Create Community with Token", async () => {
         let instance = await TokenFactory.deployed();
-        let rate  =1;
+        let rate =1;
         let wallet = account_one
-        let  tokenTx =  await instance.createCommunityToken(Name,Label,Decimals,Supply,rate,wallet,{from:account_one});
-
+        let communityToken =  await instance.createCommunityToken(Name,Label,Decimals,Supply,rate,wallet,{from:account_one});
+        const log = communityToken.logs[0];
+        assert.ok(log.event == "TokenCreated");
     });
+
+    it("Should Create Community without Token", async () => {
+        let instance = await TokenFactory.deployed();
+        let rate =1;
+        let wallet = account_one;
+        let community =  await instance.createCommunity(rate,wallet,{from:account_one});
+    }) 
 
     it("Should Get user tokens", async () => {
         let instance = await TokenFactory.deployed();
         let tokens =  await instance.getTokens.call(account_one);
+
         for (let t of tokens){
             let token = await  Token.at(t);
-          await token.transferFrom(account_one,account_two,1 * 1e18)
+            await token.approve(account_two, 1 * 1e18, {from: account_one})  ;
+            await token.transferFrom(account_one,account_two,1 * 1e18, {from: account_two});
+            assert.equal((await token.balanceOf(account_two)), 1e18, "tokens was not received");  
         }
-
-
     });
 
 

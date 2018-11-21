@@ -26,7 +26,7 @@ contract Token is StandardToken, Ownable {
         owner = _owner;
         //balances go to the owner normally
         // Keep closed if we want to transfer tokens to the crowdsale
-        //  balances[owner] = totalSupply_;
+        balances[owner] = totalSupply_;
 
     }
 

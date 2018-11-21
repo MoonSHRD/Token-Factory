@@ -18,14 +18,17 @@ contract Community is Ownable {
         _;
     }
 
-    constructor(uint256 _rate, address _owner, Token _token) public {
+    constructor(uint256 _rate, address _owner) public {
         rate = _rate;
         owner = _owner;
-        token = _token;
     }
-
+    
     function() external payable {
         buyTokens(msg.sender);
+    }
+
+    function setToken(Token _token) public {
+        token = _token;
     }
 
     function join() public {
