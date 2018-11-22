@@ -37,6 +37,8 @@ contract('TokenFactory', async (accounts) => {
         let rate =1;
         let wallet = account_one;
         let community =  await instance.createCommunity(rate,wallet,{from:account_one});
+        const log = community.logs[0];
+        assert.ok(log.event == "CommunityCreated");
     }) 
 
     it("Should Get user tokens", async () => {
@@ -47,7 +49,7 @@ contract('TokenFactory', async (accounts) => {
             let token = await  Token.at(t);
             await token.approve(account_two, 1 * 1e18, {from: account_one})  ;
             await token.transferFrom(account_one,account_two,1 * 1e18, {from: account_two});
-            assert.equal((await token.balanceOf(account_two)), 1e18, "tokens was not received");  
+            assert.equal((await token.balanceOf(account_two)),1 * 1e18, "tokens was not received");  
         }
     });
 
