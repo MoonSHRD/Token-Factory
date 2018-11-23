@@ -14,8 +14,10 @@ contract TokenFactory {
     mapping (address => address[]) public communitys;
 
 
+    event CommunityTokenCreated(address _owner, address _token);
+    event CommunityNoTokenCreated(address _owner, address _token);
     event TokenCreated(address _owner, address _token);
-    event CommunityCreated(address _owner, address _token);
+
 
     // define zheton as Token contract. There is might be a pitfall, cause tokensale await ERC20
   //  Token public zheton;
@@ -33,26 +35,49 @@ contract TokenFactory {
     }
 
 
-// Function that create Community with Token
-// Note that it can be burn a lot of gas, so I think we need to split this function in the future
+    /*
+    @notice createCommunityToken создает комьнити с токеном, функция public, свободна для вызова
+    @dev для создания токена используется createToken, владельцем токена назначается комьюнити, функция добавляет адрес комьюнити в мапинг communitys
+    @param _name имя токена
+    @param _symbol символ токена
+    @param _decimals decimal токена
+    @param _INITIAL_SUPPLY supply токена
+    @param _rate rate для продажи токена
+    @param _wallet адрес владельца комьюнити
+    @return {
+    "cdr": "адрес созданного комьюнити",
+    }
+    */
      function createCommunityToken(string _name,
      string _symbol, uint8 _decimals,
      uint _INITIAL_SUPPLY, uint256 _rate, address _wallet) public returns(address){
-       Token token = createToken(_name,_symbol,_decimals,_INITIAL_SUPPLY);
-       Community community = new Community(_rate,_wallet);
-       community.setToken(token);
+            
+       bool withToken = true;
+       Community community = new Community(_wallet, withToken);
+       community.setRate(_rate);
        address cdr = address(community);
+       Token token = createToken(_name,_symbol,_decimals,_INITIAL_SUPPLY, cdr);
+       community.setToken(token);
+
        communitys[msg.sender].push(community);  
-       token.prepareCommunity(cdr);
+       emit CommunityTokenCreated(msg.sender, cdr);
          return cdr;
    }
 
-// Function that creates Community without token with given parameters
-    function createCommunity(uint256 _rate, address _wallet) public returns(address) {
-        Community community = new Community(_rate,_wallet);
+    /*
+    @notice createCommunity создает комьнити без токена, функция public, свободна для вызова
+    @dev функция добавляет адрес комьюнити в мапинг communitys
+    @param _wallet адрес владельца комьюнити
+    @return {
+    "cdr": "адрес созданного комьюнити",
+    }
+    */
+    function createCommunity(address _wallet) public returns(address) {
+        bool withToken = false;
+        Community community = new Community(_wallet, withToken);
         communitys[msg.sender].push(community);
         address cdr = address(community);
-        emit CommunityCreated(msg.sender, cdr);
+        emit CommunityNoTokenCreated(msg.sender, address(cdr));
         return cdr;
     }
 
@@ -62,9 +87,9 @@ contract TokenFactory {
     function createToken(string _name,
     string _symbol,
     uint8 _decimals,
-    uint _INITIAL_SUPPLY) public returns(Token) {
+    uint _INITIAL_SUPPLY, address _owner) private returns(Token) {
   //  address token = 0x0;
-      Token token = new Token(_name, _symbol, _decimals, _INITIAL_SUPPLY, msg.sender);
+      Token token = new Token(_name, _symbol, _decimals, _INITIAL_SUPPLY, _owner);
 
         tokens[msg.sender].push(token);
         emit TokenCreated(msg.sender, address(token));

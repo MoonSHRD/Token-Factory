@@ -9,26 +9,44 @@ contract Community is Ownable {
 
     mapping(address => bool) members;
     uint256 rate;
+    
     Token public token;
 
-    bool public prepared;
+    bool public prepared = false;
+    bool public withToken;
 
     modifier onlyMember {
         require(members[msg.sender]);
         _;
     }
 
-    constructor(uint256 _rate, address _owner) public {
-        rate = _rate;
+    constructor(address _owner, bool _withToken) public {
         owner = _owner;
+        withToken = _withToken;
     }
     
     function() external payable {
-        buyTokens(msg.sender);
+        buyTokens(msg.sender, msg.value);
     }
 
     function setToken(Token _token) public {
+        require(withToken == true && address(token) == address(0), "this community must have no token");
         token = _token;
+    }
+
+    function setRate(uint256 _rate) public {
+        require(prepared == false && withToken == true, "rate was set");
+        rate = _rate;
+    }
+        /*
+    @notice prepareCommunity делает возможным продажу токенов комьюнити
+    @dev функция вызывает метод токена для передачи токенов на адрес комьюнити, вызвается только владельцем комьюнити и только один раз
+    */
+    function prepareCommunity() external onlyOwner {
+        require(withToken == true, "this community have no token");
+        require(prepared == false, "Community was prepared");
+        token.transferToCommunity();
+        prepared = true;
     }
 
     function join() public {
@@ -46,14 +64,12 @@ contract Community is Ownable {
     }
 
 
-    function buyTokens(address _address) internal {
-        uint256 weiAmount = msg.value;
-        require(_address != address(0));
-        require(weiAmount != 0);
+    function buyTokens(address _to, uint256 _weiAmount) internal {
+        require(_to != address(0), "address _to is null");
+        require(_weiAmount != 0, "weiAmount is null");
 
-        uint256 tokens = weiAmount.mul(rate);
-
-        token.transfer(_address, tokens);
+        uint256 tokens = _weiAmount.mul(rate);
+        token.transfer(_to, tokens);
     }
 
     function beforeJoin() internal {}

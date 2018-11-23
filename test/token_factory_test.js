@@ -1,57 +1,39 @@
 const TokenFactory = artifacts.require("TokenFactory");
-const Token = artifacts.require('Token')
+const Token = artifacts.require('Token');
+const Community = artifacts.require('Community');
 
 contract('TokenFactory', async (accounts) => {
-    let account_one = accounts[0];
-    let account_two = accounts[1];
+    const owner = accounts[0],
+        wallet = accounts[1],
+        Supply = 10000 * 10 ** 18,
+        Decimals = 3,
+        Name = "TestCoin",
+        Label = "TST",
+        rate = 1;
+    let Instance;
 
-    let NullAddr = "0x0000000000000000000000000000000000000000"
-    let Supply = 10000 * 10 ** 18;
-    let Decimals =3;
-    let Name = "TestCoin";
-    let Label = "TST";
+    before(async () =>{
+        Instance = await TokenFactory.deployed();
+    })
 
-    it("Should Create Simple Token", async () => {
-        let instance = await TokenFactory.deployed();
-        console.log([Name, Label, 18, Supply]);
-        let tokenTx = await instance.createToken(Name, Label, 18, Supply, {from: account_one})
-        assert.ok(tokenTx.logs.length == 1, "Too many Events");
-        const log = tokenTx.logs[0];
-        assert.ok(log.event == "TokenCreated");
-        assert.ok(log.args._owner == account_one, "Incorrect owner addr");
-    });
+    describe("Create Community and Token", async () => {
 
+        it("Should Create Community with Token", async () => {
+            const communityToken = await Instance.createCommunityToken(Name, Label, Decimals, Supply, rate, owner, {from: owner});
+            const logOne = communityToken.logs[0];
+            const logTwo = communityToken.logs[1];
+            assert.ok(logOne.event == "TokenCreated");
+            assert.ok(logTwo.event == "CommunityTokenCreated");
+        });
 
-
-    it("Should Create Community with Token", async () => {
-        let instance = await TokenFactory.deployed();
-        let rate =1;
-        let wallet = account_one
-        let communityToken =  await instance.createCommunityToken(Name,Label,Decimals,Supply,rate,wallet,{from:account_one});
-        const log = communityToken.logs[0];
-        assert.ok(log.event == "TokenCreated");
-    });
-
-    it("Should Create Community without Token", async () => {
-        let instance = await TokenFactory.deployed();
-        let rate =1;
-        let wallet = account_one;
-        let community =  await instance.createCommunity(rate,wallet,{from:account_one});
-        const log = community.logs[0];
-        assert.ok(log.event == "CommunityCreated");
+        it("Should Create Community without Token", async () => {
+            const community =  await Instance.createCommunity(owner, {from: owner});
+            const log = community.logs[0];
+            assert.ok(log.event == "CommunityNoTokenCreated");
+        })
     }) 
 
-    it("Should Get user tokens", async () => {
-        let instance = await TokenFactory.deployed();
-        let tokens =  await instance.getTokens.call(account_one);
 
-        for (let t of tokens){
-            let token = await  Token.at(t);
-            await token.approve(account_two, 1 * 1e18, {from: account_one})  ;
-            await token.transferFrom(account_one,account_two,1 * 1e18, {from: account_two});
-            assert.equal((await token.balanceOf(account_two)),1 * 1e18, "tokens was not received");  
-        }
-    });
 
 
 
