@@ -8,12 +8,15 @@ contract Community is Ownable {
     using SafeMath for uint256;
 
     mapping(address => bool) members;
+    
     uint256 rate;
     
     Token public token;
 
     bool public prepared = false;
     bool public withToken;
+
+    event CommunityWasPrepared(address _community, address _owner);
 
     modifier onlyMember {
         require(members[msg.sender]);
@@ -33,12 +36,15 @@ contract Community is Ownable {
         require(withToken == true && address(token) == address(0), "this community must have no token");
         token = _token;
     }
-
+        /**
+    @notice setRate вызывется при создании комьюнити вместе стокеном
+    @dev функция вызывает один раз и последующие попытки приведут к реверту
+    */
     function setRate(uint256 _rate) public {
         require(prepared == false && withToken == true, "rate was set");
         rate = _rate;
     }
-        /*
+        /**
     @notice prepareCommunity делает возможным продажу токенов комьюнити
     @dev функция вызывает метод токена для передачи токенов на адрес комьюнити, вызвается только владельцем комьюнити и только один раз
     */
@@ -47,6 +53,8 @@ contract Community is Ownable {
         require(prepared == false, "Community was prepared");
         token.transferToCommunity();
         prepared = true;
+
+        emit CommunityWasPrepared(address(this), owner);
     }
 
     function join() public {
@@ -63,7 +71,10 @@ contract Community is Ownable {
         afterLeave();
     }
 
-
+        /**
+    @notice buyTokens фнкция по умолчанию для покупки токенов комьюнити
+    @dev вызвать функцию можно отправив эфир на адрес комьюнити
+    */
     function buyTokens(address _to, uint256 _weiAmount) internal {
         require(_to != address(0), "address _to is null");
         require(_weiAmount != 0, "weiAmount is null");
