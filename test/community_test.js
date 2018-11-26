@@ -1,4 +1,4 @@
-const TokenFactory = artifacts.require("TokenFactory");
+const CommunityFactory = artifacts.require("CommunityFactory");
 const Token = artifacts.require('Token');
 const Community = artifacts.require('Community');
 
@@ -16,11 +16,12 @@ contract('Community', async (accounts) => {
 
 
     before(async function () {
-        const Instance = await TokenFactory.deployed();
+        Instance = await CommunityFactory.deployed();
         await Instance.createCommunityToken(Name, Label, Decimals, Supply, rate, owner, {from: owner});
         community = (await Community.at((await Instance.getCommunitys.call(owner))[0]));
         token = (await Token.at((await Instance.getTokens.call(owner))[0]));;
     })
+    
     describe("Owner", async () => {
         
         it("Owner should prepare Community to TokenSale", async () => {
@@ -29,7 +30,8 @@ contract('Community', async (accounts) => {
             assert.equal((await token.balanceOf(community.address)).toNumber(), 
                         (await token.totalSupply.call()).toNumber(), "tokens was not recieved");
         })
-    })    
+    })
+
     describe("User", async () => {
 
         it("Should buy tokens from Community", async () => {
@@ -47,8 +49,7 @@ contract('Community', async (accounts) => {
 
             await token.approve(owner, 1000, {from: wallet})  ;
             await token.transferFrom(wallet, owner, 1000, {from: owner});
-            assert.equal((await token.balanceOf(owner)), 1000, "tokens was not received");  
-            
+            assert.equal((await token.balanceOf(owner)), 1000, "tokens was not received");              
         });
     })
 })    
