@@ -3,6 +3,11 @@
   "version": "0.0.2",
   "description": "Frontend example using truffle v3",
   "scripts": {
+    "docs:init": "node_modules/.bin/doxity init",
+    "docs:compile": "node_modules/.bin/doxity compile",
+    "docs:develop": "node_modules/.bin/doxity develop",
+    "docs:publish": "node_modules/.bin/doxity publish",
+    "docs:build": "node_modules/.bin/doxity build",
     "lint": "eslint ./",
     "build": "webpack",
     "dev": "webpack-dev-server",
@@ -13,6 +18,7 @@
   "author": "Douglas von Kohorn",
   "license": "MIT",
   "devDependencies": {
+    "@digix/doxity": "^0.5.2",
     "babel-cli": "^6.22.2",
     "babel-core": "^6.22.1",
     "babel-eslint": "^6.1.2",
@@ -32,13 +38,13 @@
     "eslint-plugin-standard": "^2.0.0",
     "html-webpack-plugin": "^2.28.0",
     "json-loader": "^0.5.4",
+    "mocha-multi-reporters": "^1.1.7",
+    "solidity-coverage": "^0.5.4",
+    "solium": "^1.1.8",
     "style-loader": "^0.13.1",
     "web3": "^0.20.7",
     "webpack": "^2.2.1",
-    "webpack-dev-server": "^2.11.3",
-    "mocha-multi-reporters": "^1.1.7",
-    "solidity-coverage": "^0.5.4",
-    "solium": "^1.1.8"
+    "webpack-dev-server": "^2.11.3"
   },
   "main": "truffle.js",
   "directories": {

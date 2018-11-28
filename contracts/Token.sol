@@ -9,9 +9,6 @@ contract Token is StandardToken, Ownable {
     string public symbol;
     uint8 public decimals;
     address public Factory;
-    // prepare URANUS
-    // probably need to reafactor it to a modifier
-    bool public prepared = false;
 
     constructor(string _name,
         string _symbol,
@@ -24,9 +21,7 @@ contract Token is StandardToken, Ownable {
         totalSupply_ = _INITIAL_SUPPLY;
         Factory = msg.sender;
         owner = _owner;
-        //balances go to the owner normally
-        // Keep closed if we want to transfer tokens to the crowdsale
-        balances[owner] = totalSupply_;
+        //balances[owner] = totalSupply_;
 
     }
 
@@ -35,17 +30,15 @@ contract Token is StandardToken, Ownable {
         _;
     }
 
-    function prepareCommunity(address _community) public onlyFactory {
-        require(prepared == false);
-        balances[_community] = totalSupply_;
-        prepared = true;
-
+    function transferToCommunity() public onlyOwner {
+        balances[owner] = totalSupply_;
     }
 
 
     function unit() public view returns (uint256) {
         return 10 ** decimals;
     }
+
     /*
         NOTE  BUG found - when you try to implement function below
         solidity compiler with truffle will CRUSH, killing truffle location map with
